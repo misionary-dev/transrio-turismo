@@ -8,6 +8,14 @@
   --accent: #f5c518;
   --sand: #fff3c4;
   --ink: #111111;
+
+  /* Paleta oficial Transrio */
+  --brand-black: #010101;
+  --brand-black-light: #171b1e;
+  --brand-white: #f1f1f1;
+  --brand-red-strong: #ff0000;
+  --brand-red-mid: #dc1822;
+  --brand-red-light: #ea3d46;
 }
 
 @theme inline {
@@ -20,6 +28,13 @@
   --color-ink: var(--ink);
   --font-sans: var(--font-dm);
   --font-display: var(--font-funnel);
+
+  --color-brand-black: var(--brand-black);
+  --color-brand-black-light: var(--brand-black-light);
+  --color-brand-white: var(--brand-white);
+  --color-brand-red-strong: var(--brand-red-strong);
+  --color-brand-red-mid: var(--brand-red-mid);
+  --color-brand-red-light: var(--brand-red-light);
 }
 
 html {
