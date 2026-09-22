@@ -10,8 +10,8 @@ export function GroupDepartureSection() {
             Salida grupal
           </h2>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-brand-black/70 md:text-lg">
-            ¿Sos parte de un grupo de amigos, un equipo o cualquier grupo de
-            más de 10 personas? Armamos una salida grupal a medida, al
+            <strong>¿Sos parte de un grupo de amigos, un equipo o cualquier grupo de
+            más de 20 personas?</strong> Armamos una salida grupal a medida, al
             destino que elijan. Nosotros nos encargamos de todo el plan de
             viaje —alojamiento, transporte y organización— para que ustedes
             solo se preocupen por disfrutar juntos.

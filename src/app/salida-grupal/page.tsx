@@ -1,21 +1,13 @@
-import Link from "next/link";
+import { GroupDepartureHero } from "@/components/GroupDepartureHero";
+import { GroupDepartureInfo } from "@/components/GroupDepartureInfo";
+import { ContactPageForm } from "@/components/ContactPageForm";
 
 export default function SalidaGrupalPage() {
   return (
-    <main className="mx-auto flex min-h-[60vh] max-w-3xl flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
-      <h1 className="text-3xl font-bold text-brand-black md:text-4xl">
-        Salida grupal
-      </h1>
-      <p className="text-black/60">
-        Esta sección está en construcción. Muy pronto vas a poder ver la
-        info de la próxima salida grupal.
-      </p>
-      <Link
-        href="/"
-        className="rounded-full bg-brand-red-mid px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
-      >
-        Volver al inicio
-      </Link>
-    </main>
+    <>
+      <GroupDepartureHero />
+      <GroupDepartureInfo />
+      <ContactPageForm />
+    </>
   );
 }
