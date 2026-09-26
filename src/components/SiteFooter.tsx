@@ -24,7 +24,7 @@ const NAV_LINKS = [
 
 export function SiteFooter() {
   const wa = whatsappUrl(quoteMessage());
-  const year = new Date().getFullYear();
+  const year = 2026;
 
   return (
     <footer className="bg-brand-black-light px-6 py-12 text-white/70">

@@ -89,54 +89,66 @@ export function PackageCardCarousel({
       }}
       className="w-full overflow-hidden rounded-2xl border border-black/5 bg-white text-brand-black shadow-md"
     >
-      {/* Carrusel de imágenes */}
+      {/* Carrusel de imágenes — click abre detalle; flechas no bloquean el resto */}
       <div className="group relative h-64 bg-brand-black-light">
-        {images.length > 0 ? (
-          <AnimatePresence initial={false} custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={carouselVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={images[currentIndex]}
-                alt={title}
-                fill
-                sizes="(min-width: 1024px) 360px, 100vw"
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50">
-            <ImageOff className="h-8 w-8" />
-            <span className="text-xs font-medium">Foto próximamente</span>
-          </div>
-        )}
+        <Link
+          href={`/paquetes/${pkg.slug}`}
+          className="absolute inset-0 z-0 cursor-pointer"
+          aria-label={`Ver ${title}`}
+        >
+          {images.length > 0 ? (
+            <AnimatePresence initial={false} custom={direction}>
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={carouselVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.2 },
+                }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={images[currentIndex]}
+                  alt={title}
+                  fill
+                  sizes="(min-width: 1024px) 360px, 100vw"
+                  className="object-cover"
+                />
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50">
+              <ImageOff className="h-8 w-8" />
+              <span className="text-xs font-medium">Foto próximamente</span>
+            </div>
+          )}
+        </Link>
 
         {images.length > 1 ? (
-          <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-between p-2 opacity-0 transition-opacity group-hover:opacity-100">
             <button
               type="button"
-              onClick={() => changeImage(-1)}
+              onClick={(e) => {
+                e.preventDefault();
+                changeImage(-1);
+              }}
               aria-label="Foto anterior"
-              className="rounded-full bg-black/40 p-1.5 text-white hover:bg-black/60"
+              className="pointer-events-auto rounded-full bg-black/40 p-1.5 text-white hover:bg-black/60"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               type="button"
-              onClick={() => changeImage(1)}
+              onClick={(e) => {
+                e.preventDefault();
+                changeImage(1);
+              }}
               aria-label="Foto siguiente"
-              className="rounded-full bg-black/40 p-1.5 text-white hover:bg-black/60"
+              className="pointer-events-auto rounded-full bg-black/40 p-1.5 text-white hover:bg-black/60"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
@@ -144,22 +156,25 @@ export function PackageCardCarousel({
         ) : null}
 
         {season ? (
-          <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-black backdrop-blur-sm">
+          <div className="pointer-events-none absolute top-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-black backdrop-blur-sm">
             {SeasonIcon ? <SeasonIcon className="h-3.5 w-3.5" /> : null}
             {season}
           </div>
         ) : null}
 
         {images.length > 1 ? (
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+          <div className="pointer-events-none absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
             {images.map((_, index) => (
               <button
                 key={index}
                 type="button"
-                onClick={() => setCurrentIndex(index)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setCurrentIndex(index);
+                }}
                 aria-label={`Ir a la foto ${index + 1}`}
                 className={cn(
-                  "h-1.5 rounded-full transition-all",
+                  "pointer-events-auto h-1.5 rounded-full transition-all",
                   currentIndex === index
                     ? "w-4 bg-white"
                     : "w-1.5 bg-white/50",
@@ -172,7 +187,11 @@ export function PackageCardCarousel({
 
       {/* Contenido */}
       <div className="space-y-3 p-5">
-        <TitleTag className="text-xl font-bold">{title}</TitleTag>
+        <TitleTag className="text-xl font-bold">
+          <Link href={`/paquetes/${pkg.slug}`} className="hover:underline">
+            {title}
+          </Link>
+        </TitleTag>
 
         {duration ? (
           <p className="text-sm text-brand-black/60">{duration}</p>
