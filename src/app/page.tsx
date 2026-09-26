@@ -6,7 +6,7 @@ import { GroupDepartureSection } from "@/components/GroupDepartureSection";
 import { ContactSection } from "@/components/ContactSection";
 import { packageDetails } from "@/data/package-details";
 
-const FEATURED_PACKAGES = packageDetails.slice(0, 6);
+const FEATURED_PACKAGES = packageDetails;
 
 export default function Home() {
   return (

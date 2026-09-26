@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { Calendar, ImageOff, MapPin, ShieldCheck, Utensils } from "lucide-react";
 import { packageDetails } from "@/data/package-details";
 import { quoteMessage, whatsappUrl } from "@/lib/contact";
@@ -39,10 +40,23 @@ export default async function PaqueteDetallePage(
   return (
     <main className="bg-white">
       {/* Portada */}
-      <div className="flex h-64 flex-col items-center justify-center gap-2 bg-brand-black-light text-white/50 md:h-80">
-        <ImageOff className="h-8 w-8" />
-        <span className="text-sm font-medium">Foto próximamente</span>
-      </div>
+      {pkg.images[0] ? (
+        <div className="relative h-64 md:h-80">
+          <Image
+            src={pkg.images[0]}
+            alt={title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div className="flex h-64 flex-col items-center justify-center gap-2 bg-brand-black-light text-white/50 md:h-80">
+          <ImageOff className="h-8 w-8" />
+          <span className="text-sm font-medium">Foto próximamente</span>
+        </div>
+      )}
 
       <div className="mx-auto max-w-3xl px-6 py-10 md:py-14">
         {season ? (
@@ -62,6 +76,25 @@ export default async function PaqueteDetallePage(
         <p className="mt-5 text-base leading-relaxed text-brand-black/70">
           {pkg.description}
         </p>
+
+        {pkg.images.length > 1 ? (
+          <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {pkg.images.slice(1).map((src) => (
+              <div
+                key={src}
+                className="relative aspect-[4/3] overflow-hidden rounded-xl bg-brand-black-light"
+              >
+                <Image
+                  src={src}
+                  alt={title}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         {/* Precio + CTA */}
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/5 bg-brand-white p-5">

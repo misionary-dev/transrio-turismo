@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
+import Image from "next/image";
 import { Bus, Building2, Heart } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -79,10 +80,14 @@ export function AboutSection() {
               necesidades de nuestros pasajeros y sus expectativas de viaje.
             </p>
           </div>
-          <div data-about-image className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
-            <div className="h-full w-full flex items-center justify-center text-white/40">
-              <span className="text-sm">Foto próximamente</span>
-            </div>
+          <div data-about-image className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
+            <Image
+              src="/institucional/rio-uruguay-flota.jpg"
+              alt="Flota de ómnibus Río Uruguay en Posadas"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>

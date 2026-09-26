@@ -8,12 +8,7 @@ import type { PackageDetail } from "@/data/package-details";
 
 export type Season = "Verano" | "Otoño" | "Invierno" | "Primavera";
 
-/**
- * Imágenes a mostrar en la card. Por ahora devuelve siempre vacío a
- * propósito: hasta que lleguen las fotos definitivas de cada paquete, todas
- * las cards muestran el estado "Foto próximamente" (incluidas Camboriú,
- * Torres y Capão da Canoa, que tenían una foto del sitio viejo).
- */
+/** Imágenes de la card: las de `pkg.images` (vacío = “Foto próximamente”). */
 export function getCardImages(pkg: PackageDetail): string[] {
   return pkg.images;
 }

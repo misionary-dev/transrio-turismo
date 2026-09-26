@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -82,10 +83,14 @@ export function GroupDepartureInfo() {
               disfrutar.
             </p>
           </div>
-          <div data-group-image className="aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
-            <div className="h-full w-full flex items-center justify-center text-white/40">
-              <span className="text-sm">Foto próximamente</span>
-            </div>
+          <div data-group-image className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
+            <Image
+              src="/destinos/salida-grupal.jpg"
+              alt="Salida grupal Transrio Turismo"
+              fill
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>

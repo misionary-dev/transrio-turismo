@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ImageOff } from "lucide-react";
+import Image from "next/image";
 
 export function GroupDepartureSection() {
   return (
@@ -24,9 +24,14 @@ export function GroupDepartureSection() {
           </Link>
         </div>
 
-        <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-3xl bg-brand-black-light text-white/40">
-          <ImageOff className="h-10 w-10" />
-          <span className="text-sm font-medium">Foto próximamente</span>
+        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand-black-light">
+          <Image
+            src="/destinos/salida-grupal.jpg"
+            alt="Grupo viajando juntos"
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover"
+          />
         </div>
       </div>
     </section>

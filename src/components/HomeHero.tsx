@@ -36,7 +36,7 @@ export function HomeHero() {
           playsInline
           preload="auto"
           className="h-full w-full object-cover"
-          poster="https://www.transrioturismo.tur.ar/travel/wp-content/uploads/2018/04/torresguarita-1920x550.jpg"
+          poster="/destinos/camboriu-skyline.jpg"
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>

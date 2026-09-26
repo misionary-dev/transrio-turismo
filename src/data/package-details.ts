@@ -8,9 +8,7 @@
  * cargado todo lo que el template trae, para no perder información.
  *
  * Pendientes:
- * - `images`: array vacío en todos los paquetes. Van a llegar por separado
- *   (Tomás las va a ir mandando) y hay que subirlas a /public o a un storage
- *   y completar las rutas acá.
+ * - `images`: destinos locales en /public/destinos (no reusar el WP).
  * - `description`: el template NO tiene este campo. Escribí un borrador para
  *   cada paquete a partir del resto de la info (destino, hotel, itinerario)
  *   — hay que revisarlos/ajustarlos con el equipo comercial antes de publicar.
@@ -135,7 +133,12 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/gramado-lago-2.jpg",
+      "/destinos/canela-2023.jpg",
+      "/destinos/gramado-plaza.jpg",
+      "/destinos/gramado-lago-negro.jpg",
+    ],
   },
   {
     slug: "capao-da-canoa",
@@ -182,7 +185,12 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/capao-orla.jpg",
+      "/destinos/capao-praia.jpg",
+      "/destinos/capao-farol.jpg",
+      "/destinos/capao-navegantes.jpg",
+    ],
   },
   {
     slug: "torres",
@@ -230,7 +238,12 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/torres-guarita-aereo.jpg",
+      "/destinos/torres-ciudad-aereo.jpg",
+      "/destinos/torres-guarita.jpg",
+      "/destinos/torres-guarita-ciudad.jpg",
+    ],
   },
   {
     slug: "florianopolis-canasvieiras",
@@ -277,7 +290,7 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: ["/destinos/canasvieiras.jpg"],
   },
   {
     slug: "camboriu",
@@ -324,7 +337,13 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/camboriu-atardecer.jpg",
+      "/destinos/camboriu-cristo.jpg",
+      "/destinos/camboriu-skyline-2.jpg",
+      "/destinos/camboriu-playa.jpg",
+      "/destinos/camboriu-skyline.jpg",
+    ],
   },
   {
     slug: "gramado-canela-semana-santa",
@@ -373,7 +392,12 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/canela-iglesia.jpg",
+      "/destinos/canela-lourdes.jpg",
+      "/destinos/gramado-joaquina.jpg",
+      "/destinos/gramado-plaza.jpg",
+    ],
   },
   {
     slug: "termas-romanas",
@@ -412,6 +436,11 @@ export const packageDetails: PackageDetail[] = [
       "15 a 7 días: 25%\n" +
       "Menos de 7 días: sin reintegro\n" +
       "Señas o pagos hasta el 30%: sin reintegro ni reprogramación.",
-    images: [],
+    images: [
+      "/destinos/termas-piscina.jpg",
+      "/destinos/termas-spa.jpg",
+      "/destinos/termas-parque.jpg",
+      "/destinos/termas-piramide.jpg",
+    ],
   },
 ];

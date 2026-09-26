@@ -44,8 +44,7 @@ export const packages: Package[] = [
     price: "¡Consulta!",
     excerpt:
       "Salidas todos los lunes 15 hs. Enero y febrero. Marzo y abril consultar.",
-    image:
-      "https://www.transrioturismo.tur.ar/travel/wp-content/uploads/2025/09/camboriu1-800x600.png",
+    image: "/destinos/camboriu-skyline.jpg",
   },
   {
     slug: "torres",
@@ -56,8 +55,7 @@ export const packages: Package[] = [
     price: "¡Consulta!",
     excerpt:
       "Salidas todos los lunes 15 hs. Enero y febrero. Semana Santa consultar.",
-    image:
-      "https://www.transrioturismo.tur.ar/travel/wp-content/uploads/2018/04/torresguarita-800x600.jpg",
+    image: "/destinos/torres-guarita.jpg",
   },
   {
     slug: "capao-canoa",
@@ -67,7 +65,6 @@ export const packages: Package[] = [
     aside: "Oferta especial",
     price: "¡Consulta!",
     excerpt: "Salidas todos los lunes 15 hs. Enero y febrero disponibles.",
-    image:
-      "https://www.transrioturismo.tur.ar/travel/wp-content/uploads/2018/04/capaodacanoa-800x600.jpg",
+    image: "/destinos/capao-orla.jpg",
   },
 ];
