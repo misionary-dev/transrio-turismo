@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Calendar, ImageOff, MapPin, ShieldCheck, Utensils } from "lucide-react";
+import { Calendar, MapPin, ShieldCheck, Utensils } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import { PackageHero } from "@/components/packages/PackageHero";
 import { packageDetails } from "@/data/package-details";
 import { quoteMessage, whatsappUrl } from "@/lib/contact";
 import {
@@ -56,198 +57,170 @@ export default async function PaqueteDetallePage(
     quoteMessage({ destination: title, duration: duration || undefined }),
   );
   const menoresConDetalle = pkg.menores.filter((m) => m.detalle);
+  const itinerarioLineas = pkg.itinerario
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   return (
     <main className="bg-white">
       <JsonLd data={touristTripJsonLd(pkg)} />
-      {/* Portada */}
-      {images[0] ? (
-        <div className="relative h-64 md:h-80">
-          <Image
-            src={images[0]}
-            alt={title}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : (
-        <div className="flex h-64 flex-col items-center justify-center gap-2 bg-brand-black-light text-white/50 md:h-80">
-          <ImageOff className="h-8 w-8" />
-          <span className="text-sm font-medium">Foto próximamente</span>
-        </div>
-      )}
+      <PackageHero
+        title={title}
+        duration={duration}
+        season={season}
+        image={images[0]}
+        wa={wa}
+      />
 
-      <div className="mx-auto max-w-3xl px-6 py-10 md:py-14">
-        {season ? (
-          <span className="mb-3 inline-block rounded-full bg-brand-red-mid/10 px-3 py-1 text-xs font-semibold text-brand-red-mid">
-            {season}
-          </span>
-        ) : null}
-
-        <h1 className="text-3xl font-semibold tracking-tight text-brand-black md:text-4xl">
-          {title}
-        </h1>
-
-        {duration ? (
-          <p className="mt-2 text-brand-black/60">{duration}</p>
-        ) : null}
-
-        <p className="mt-5 text-base leading-relaxed text-brand-black/70">
-          {pkg.description}
-        </p>
-
-        {images.length > 1 ? (
-          <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {images.slice(1).map((src) => (
-              <div
-                key={src}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl bg-brand-black-light"
-              >
-                <Image
-                  src={src}
-                  alt={title}
-                  fill
-                  sizes="(min-width: 640px) 33vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        ) : null}
-
-        {/* Precio + CTA */}
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-black/5 bg-brand-white p-5">
-          <p className="text-lg font-semibold">
-            Desde <span className="text-brand-red-mid">{amount}</span>{" "}
-            <span className="text-sm font-normal text-brand-black/50">
-              por persona, coche cama
-            </span>
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-10 md:py-14 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <div>
+          <p className="text-base leading-relaxed text-brand-black/70 md:text-lg">
+            {pkg.description}
           </p>
-          <a
-            href={wa}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-brand-red-mid px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            Reservar por WhatsApp
-          </a>
-        </div>
 
-        {/* Datos clave */}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          <div>
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
-              <Calendar className="h-4 w-4 text-brand-red-mid" />
-              Fechas de salida
+          {images.length > 1 ? (
+            <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {images.slice(1).map((src) => (
+                <div
+                  key={src}
+                  className="relative aspect-[4/3] overflow-hidden rounded-xl bg-brand-black-light"
+                >
+                  <Image
+                    src={src}
+                    alt={title}
+                    fill
+                    sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          <section className="mt-12">
+            <h2 className="font-[family-name:var(--font-funnel)] text-xl font-semibold text-brand-black">
+              Itinerario
             </h2>
-            <ul className="mt-2 space-y-1 text-sm text-brand-black/70">
-              {pkg.fechas.map((f, i) => (
-                <li key={i}>
-                  {f.salida} → {f.regreso}
+            <ol className="mt-4 space-y-3">
+              {itinerarioLineas.map((linea) => (
+                <li
+                  key={linea}
+                  className="rounded-xl border border-black/5 bg-brand-white px-4 py-3 text-sm leading-relaxed text-brand-black/70"
+                >
+                  {linea}
                 </li>
               ))}
-            </ul>
-          </div>
+            </ol>
+          </section>
 
-          <div>
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
-              <MapPin className="h-4 w-4 text-brand-red-mid" />
-              Alojamiento
-            </h2>
-            <p className="mt-2 text-sm text-brand-black/70">
-              {pkg.alojamiento.hotel}
-            </p>
-            <p className="mt-1 text-sm text-brand-black/70">
-              {pkg.alojamiento.ubicacion}
-            </p>
-          </div>
+          {menoresConDetalle.length > 0 ? (
+            <section className="mt-10">
+              <h2 className="text-sm font-semibold text-brand-black">Menores</h2>
+              <ul className="mt-2 space-y-2 text-sm text-brand-black/70">
+                {menoresConDetalle.map((m) => (
+                  <li key={m.rango}>
+                    <span className="font-medium text-brand-black">
+                      {m.rango}:
+                    </span>{" "}
+                    {m.detalle}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
 
-          <div>
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
-              <Utensils className="h-4 w-4 text-brand-red-mid" />
-              Comidas incluidas
-            </h2>
-            <p className="mt-2 text-sm text-brand-black/70">
-              {pkg.comidasIncluidas}
-            </p>
-          </div>
-
-          <div>
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
-              <ShieldCheck className="h-4 w-4 text-brand-red-mid" />
-              Cobertura médica
-            </h2>
-            <p className="mt-2 text-sm text-brand-black/70">
-              {pkg.coberturaMedica.incluida
-                ? pkg.coberturaMedica.proveedor
-                : "No incluida"}
-              {pkg.coberturaMedica.monto
-                ? ` — ${pkg.coberturaMedica.monto}`
-                : ""}
-            </p>
-          </div>
-        </div>
-
-        {menoresConDetalle.length > 0 ? (
-          <div className="mt-10">
+          <section className="mt-10">
             <h2 className="text-sm font-semibold text-brand-black">
-              Menores
+              Documentación requerida
             </h2>
-            <ul className="mt-2 space-y-2 text-sm text-brand-black/70">
-              {menoresConDetalle.map((m) => (
-                <li key={m.rango}>
-                  <span className="font-medium text-brand-black">
-                    {m.rango}:
-                  </span>{" "}
-                  {m.detalle}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-2 text-sm text-brand-black/70">
+              {pkg.documentacionRequerida}
+            </p>
+          </section>
+
+          <section className="mt-10">
+            <h2 className="text-sm font-semibold text-brand-black">
+              Política de cancelación
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-brand-black/70">
+              {pkg.politicaCancelacion}
+            </p>
+          </section>
+        </div>
+
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <div className="rounded-2xl border border-black/5 bg-brand-white p-5">
+            <p className="text-lg font-semibold">
+              Desde <span className="text-brand-red-mid">{amount}</span>
+            </p>
+            <p className="mt-1 text-sm text-brand-black/50">
+              por persona, coche cama
+            </p>
+            <a
+              href={wa}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex cursor-pointer items-center justify-center rounded-full bg-brand-red-mid px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
+            >
+              Reservar por WhatsApp
+            </a>
           </div>
-        ) : null}
 
-        {/* Itinerario */}
-        <div className="mt-10">
-          <h2 className="text-sm font-semibold text-brand-black">
-            Itinerario
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-brand-black/70">
-            {pkg.itinerario}
-          </p>
-        </div>
+          <div className="mt-6 space-y-6">
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
+                <Calendar className="h-4 w-4 text-brand-red-mid" />
+                Fechas de salida
+              </h2>
+              <ul className="mt-2 space-y-1 text-sm text-brand-black/70">
+                {pkg.fechas.map((f) => (
+                  <li key={`${f.salida}-${f.regreso}`}>
+                    {f.salida} → {f.regreso}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Documentación */}
-        <div className="mt-10">
-          <h2 className="text-sm font-semibold text-brand-black">
-            Documentación requerida
-          </h2>
-          <p className="mt-2 text-sm text-brand-black/70">
-            {pkg.documentacionRequerida}
-          </p>
-        </div>
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
+                <MapPin className="h-4 w-4 text-brand-red-mid" />
+                Alojamiento
+              </h2>
+              <p className="mt-2 text-sm text-brand-black/70">
+                {pkg.alojamiento.hotel}
+              </p>
+              <p className="mt-1 text-sm text-brand-black/70">
+                {pkg.alojamiento.ubicacion}
+              </p>
+            </div>
 
-        {/* Cancelación */}
-        <div className="mt-10">
-          <h2 className="text-sm font-semibold text-brand-black">
-            Política de cancelación
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed whitespace-pre-line text-brand-black/70">
-            {pkg.politicaCancelacion}
-          </p>
-        </div>
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
+                <Utensils className="h-4 w-4 text-brand-red-mid" />
+                Comidas incluidas
+              </h2>
+              <p className="mt-2 text-sm text-brand-black/70">
+                {pkg.comidasIncluidas}
+              </p>
+            </div>
 
-        <div className="mt-12 flex justify-center">
-          <a
-            href={wa}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-brand-red-mid px-8 py-3.5 text-sm font-semibold text-white transition hover:brightness-110"
-          >
-            Reservar por WhatsApp
-          </a>
-        </div>
+            <div>
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-brand-black">
+                <ShieldCheck className="h-4 w-4 text-brand-red-mid" />
+                Cobertura médica
+              </h2>
+              <p className="mt-2 text-sm text-brand-black/70">
+                {pkg.coberturaMedica.incluida
+                  ? pkg.coberturaMedica.proveedor
+                  : "No incluida"}
+                {pkg.coberturaMedica.monto
+                  ? ` — ${pkg.coberturaMedica.monto}`
+                  : ""}
+              </p>
+            </div>
+          </div>
+        </aside>
       </div>
     </main>
   );
