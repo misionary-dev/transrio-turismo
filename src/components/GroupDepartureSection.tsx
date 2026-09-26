@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { media } from "@/lib/media";
 
 export function GroupDepartureSection() {
   return (
@@ -26,7 +27,7 @@ export function GroupDepartureSection() {
 
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl bg-brand-black-light">
           <Image
-            src="/destinos/salida-grupal.jpg"
+            src={media("/destinos/salida-grupal.jpg")}
             alt="Grupo viajando juntos"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"

@@ -1,0 +1,20 @@
+---
+description: Fotos y media de Transrio se sirven desde Cloudflare R2
+alwaysApply: true
+---
+
+# Imágenes = R2
+
+Todas las fotos de contenido (destinos, flota, héroes, OG, logos de UI) se sirven desde el bucket R2 **`transrio`**, no desde `public/` ni desde WordPress.
+
+- Bucket de media: `transrio`
+- No usar `transrio-turismo-opennext-cache` (solo cache OpenNext)
+- URLs: `https://media.transrio.misionary.dev/{key}` vía `media()`
+- No commitear JPG/PNG pesados en `public/destinos` ni `public/institucional`
+- Excepción: `src/app/favicon.ico`, `icon.png`, `apple-icon` (convención Next)
+
+Ejemplo:
+
+```ts
+images: [media("/destinos/torres-guarita.jpg")]
+```

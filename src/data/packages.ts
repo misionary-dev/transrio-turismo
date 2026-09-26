@@ -1,3 +1,5 @@
+import { media } from "@/lib/media";
+
 export type Destination = {
   value: string;
   label: string;
@@ -44,7 +46,7 @@ export const packages: Package[] = [
     price: "¡Consulta!",
     excerpt:
       "Salidas todos los lunes 15 hs. Enero y febrero. Marzo y abril consultar.",
-    image: "/destinos/camboriu-skyline.jpg",
+    image: media("/destinos/camboriu-skyline.jpg"),
   },
   {
     slug: "torres",
@@ -55,7 +57,7 @@ export const packages: Package[] = [
     price: "¡Consulta!",
     excerpt:
       "Salidas todos los lunes 15 hs. Enero y febrero. Semana Santa consultar.",
-    image: "/destinos/torres-guarita.jpg",
+    image: media("/destinos/torres-guarita.jpg"),
   },
   {
     slug: "capao-canoa",
@@ -65,6 +67,6 @@ export const packages: Package[] = [
     aside: "Oferta especial",
     price: "¡Consulta!",
     excerpt: "Salidas todos los lunes 15 hs. Enero y febrero disponibles.",
-    image: "/destinos/capao-orla.jpg",
+    image: media("/destinos/capao-orla.jpg"),
   },
 ];

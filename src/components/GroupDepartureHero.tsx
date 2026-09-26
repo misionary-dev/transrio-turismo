@@ -1,11 +1,12 @@
 "use client";
 
 import { PhotoPageHero } from "@/components/PhotoPageHero";
+import { media } from "@/lib/media";
 
 export function GroupDepartureHero() {
   return (
     <PhotoPageHero
-      src="/institucional/rio-uruguay-embarque.jpg"
+      src={media("/institucional/rio-uruguay-embarque.jpg")}
       alt="Embarque en ómnibus Río Uruguay"
     >
       <h1

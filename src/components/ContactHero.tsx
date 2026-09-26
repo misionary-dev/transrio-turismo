@@ -1,11 +1,12 @@
 "use client";
 
 import { PhotoPageHero } from "@/components/PhotoPageHero";
+import { media } from "@/lib/media";
 
 export function ContactHero() {
   return (
     <PhotoPageHero
-      src="/institucional/rio-uruguay-rosa.jpg"
+      src={media("/institucional/rio-uruguay-rosa.jpg")}
       alt="Unidad Río Uruguay de Transrio Turismo"
     >
       <h1

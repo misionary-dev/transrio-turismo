@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import Image from "next/image";
 import { Bus, Building2, Heart } from "lucide-react";
+import { media } from "@/lib/media";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -82,7 +83,7 @@ export function AboutSection() {
           </div>
           <div data-about-image className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
             <Image
-              src="/institucional/rio-uruguay-flota.jpg"
+              src={media("/institucional/rio-uruguay-flota.jpg")}
               alt="Flota de ómnibus Río Uruguay en Posadas"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

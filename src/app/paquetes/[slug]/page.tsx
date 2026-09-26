@@ -1,24 +1,43 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Calendar, ImageOff, MapPin, ShieldCheck, Utensils } from "lucide-react";
+import { JsonLd } from "@/components/JsonLd";
 import { packageDetails } from "@/data/package-details";
 import { quoteMessage, whatsappUrl } from "@/lib/contact";
 import {
+  getCardImages,
   getDisplayTitle,
   getDurationLabel,
   getPriceAmount,
   getSeason,
 } from "@/lib/package-presentation";
+import { touristTripJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
   return packageDetails.map((pkg) => ({ slug: pkg.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/paquetes/[slug]">) {
+export async function generateMetadata(
+  props: PageProps<"/paquetes/[slug]">,
+): Promise<Metadata> {
   const { slug } = await props.params;
   const pkg = packageDetails.find((p) => p.slug === slug);
   if (!pkg) return {};
-  return { title: `${getDisplayTitle(pkg)} — Transrio Turismo` };
+  const title = getDisplayTitle(pkg);
+  const description = pkg.description.slice(0, 158);
+  const hero = getCardImages(pkg)[0];
+  return {
+    title,
+    description,
+    alternates: { canonical: `/paquetes/${pkg.slug}` },
+    openGraph: {
+      title: `${title} | Transrio Turismo`,
+      description,
+      url: `/paquetes/${pkg.slug}`,
+      images: hero ? [{ url: hero }] : undefined,
+    },
+  };
 }
 
 export default async function PaqueteDetallePage(
@@ -28,6 +47,7 @@ export default async function PaqueteDetallePage(
   const pkg = packageDetails.find((p) => p.slug === slug);
   if (!pkg) notFound();
 
+  const images = getCardImages(pkg);
   const title = getDisplayTitle(pkg);
   const duration = getDurationLabel(pkg);
   const season = getSeason(pkg);
@@ -39,11 +59,12 @@ export default async function PaqueteDetallePage(
 
   return (
     <main className="bg-white">
+      <JsonLd data={touristTripJsonLd(pkg)} />
       {/* Portada */}
-      {pkg.images[0] ? (
+      {images[0] ? (
         <div className="relative h-64 md:h-80">
           <Image
-            src={pkg.images[0]}
+            src={images[0]}
             alt={title}
             fill
             priority
@@ -77,9 +98,9 @@ export default async function PaqueteDetallePage(
           {pkg.description}
         </p>
 
-        {pkg.images.length > 1 ? (
+        {images.length > 1 ? (
           <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {pkg.images.slice(1).map((src) => (
+            {images.slice(1).map((src) => (
               <div
                 key={src}
                 className="relative aspect-[4/3] overflow-hidden rounded-xl bg-brand-black-light"

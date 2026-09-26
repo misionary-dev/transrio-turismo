@@ -1,4 +1,5 @@
 import type { PackageDetail } from "@/data/package-details";
+import { media } from "@/lib/media";
 
 /**
  * Helpers para derivar datos de presentación (título limpio, duración,
@@ -8,9 +9,9 @@ import type { PackageDetail } from "@/data/package-details";
 
 export type Season = "Verano" | "Otoño" | "Invierno" | "Primavera";
 
-/** Imágenes de la card: las de `pkg.images` (vacío = “Foto próximamente”). */
+/** Imágenes de la card: keys R2 vía CDN (vacío = “Foto próximamente”). */
 export function getCardImages(pkg: PackageDetail): string[] {
-  return pkg.images;
+  return pkg.images.map(media);
 }
 
 /** Nombre del destino sin el sufijo de duración ("— 10 días / 7 noches"). */

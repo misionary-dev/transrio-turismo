@@ -1,11 +1,12 @@
 "use client";
 
 import { PhotoPageHero } from "@/components/PhotoPageHero";
+import { media } from "@/lib/media";
 
 export function AboutHero() {
   return (
     <PhotoPageHero
-      src="/institucional/rio-uruguay-azul.jpg"
+      src={media("/institucional/rio-uruguay-azul.jpg")}
       alt="Ómnibus cama Río Uruguay, flota de Transrio Turismo"
     >
       <p

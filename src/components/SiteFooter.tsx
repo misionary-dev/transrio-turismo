@@ -12,6 +12,7 @@ import {
   quoteMessage,
   whatsappUrl,
 } from "@/lib/contact";
+import { media } from "@/lib/media";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "/" },
@@ -31,8 +32,8 @@ export function SiteFooter() {
         <div className="max-w-xs">
           <Link href="/" className="relative block h-10 w-[150px]">
             <Image
-              src="/logo-transrio.png"
-              alt="Transrio Turismo"
+              src={media("/logo-transrio.png")}
+              alt="Transrio Turismo — operador de viajes en Posadas"
               fill
               sizes="150px"
               className="object-contain object-left"

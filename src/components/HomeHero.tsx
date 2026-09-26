@@ -5,6 +5,7 @@ import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { PackageSearch } from "@/components/PackageSearch";
+import { media } from "@/lib/media";
 
 gsap.registerPlugin(useGSAP);
 
@@ -36,7 +37,7 @@ export function HomeHero() {
           playsInline
           preload="auto"
           className="h-full w-full object-cover"
-          poster="/destinos/camboriu-skyline.jpg"
+          poster={media("/destinos/camboriu-skyline.jpg")}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>

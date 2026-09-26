@@ -46,7 +46,14 @@ const carouselVariants = {
   }),
 };
 
-export function PackageCardCarousel({ pkg }: { pkg: PackageDetail }) {
+export function PackageCardCarousel({
+  pkg,
+  heading = "h3",
+}: {
+  pkg: PackageDetail;
+  heading?: "h2" | "h3";
+}) {
+  const TitleTag = heading;
   const images = getCardImages(pkg);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -165,7 +172,7 @@ export function PackageCardCarousel({ pkg }: { pkg: PackageDetail }) {
 
       {/* Contenido */}
       <div className="space-y-3 p-5">
-        <h3 className="text-xl font-bold">{title}</h3>
+        <TitleTag className="text-xl font-bold">{title}</TitleTag>
 
         {duration ? (
           <p className="text-sm text-brand-black/60">{duration}</p>

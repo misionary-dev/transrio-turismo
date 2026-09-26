@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Users, MapPin, Zap, Heart } from "lucide-react";
+import { media } from "@/lib/media";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -85,7 +86,7 @@ export function GroupDepartureInfo() {
           </div>
           <div data-group-image className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-brand-black-light">
             <Image
-              src="/destinos/salida-grupal.jpg"
+              src={media("/destinos/salida-grupal.jpg")}
               alt="Salida grupal Transrio Turismo"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

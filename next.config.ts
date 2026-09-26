@@ -8,8 +8,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.transrioturismo.tur.ar",
-        pathname: "/travel/wp-content/uploads/**",
+        hostname: "media.transrio.misionary.dev",
+      },
+      {
+        protocol: "https",
+        hostname: "*.r2.dev",
       },
     ],
   },

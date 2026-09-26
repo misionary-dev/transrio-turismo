@@ -8,7 +8,7 @@
  * cargado todo lo que el template trae, para no perder información.
  *
  * Pendientes:
- * - `images`: destinos locales en /public/destinos (no reusar el WP).
+ * - `images`: keys del bucket R2 `transrio` (CDN media.transrio.misionary.dev).
  * - `description`: el template NO tiene este campo. Escribí un borrador para
  *   cada paquete a partir del resto de la info (destino, hotel, itinerario)
  *   — hay que revisarlos/ajustarlos con el equipo comercial antes de publicar.

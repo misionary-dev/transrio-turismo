@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { media } from "@/lib/media";
 import {
   ADDRESS,
   ADDRESS_MAPS_URL,
@@ -52,8 +53,8 @@ export function SiteHeader() {
             className="relative flex h-9 w-[130px] shrink-0 items-center justify-self-start md:h-11 md:w-[156px]"
           >
             <Image
-              src="/logo-transrio.png"
-              alt="Transrio Turismo"
+              src={media("/logo-transrio.png")}
+              alt="Transrio Turismo — operador de viajes en Posadas"
               fill
               priority
               sizes="156px"

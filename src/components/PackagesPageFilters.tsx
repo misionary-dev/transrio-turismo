@@ -75,7 +75,7 @@ export function PackagesPageFilters({ filters, onFilterChange }: FiltersProps) {
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-brand-red-mid" />
-          <h3 className="font-semibold text-brand-black">Destino</h3>
+          <p className="font-semibold text-brand-black">Destino</p>
         </div>
         <div className="space-y-2">
           {DESTINOS.map((destino) => (
@@ -96,7 +96,7 @@ export function PackagesPageFilters({ filters, onFilterChange }: FiltersProps) {
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-brand-red-mid" />
-          <h3 className="font-semibold text-brand-black">Duración</h3>
+          <p className="font-semibold text-brand-black">Duración</p>
         </div>
         <div className="space-y-2">
           {DURACIONES.map((duracion) => (
@@ -117,7 +117,7 @@ export function PackagesPageFilters({ filters, onFilterChange }: FiltersProps) {
       <div className="flex flex-col gap-2.5">
         <div className="flex items-center gap-2">
           <Sun className="h-4 w-4 text-brand-red-mid" />
-          <h3 className="font-semibold text-brand-black">Temporada</h3>
+          <p className="font-semibold text-brand-black">Temporada</p>
         </div>
         <div className="space-y-2">
           {TEMPORADAS.map((temporada) => (
