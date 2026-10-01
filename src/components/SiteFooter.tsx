@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
 import { FacebookIcon } from "@/components/icons/FacebookIcon";
+import { TransrioLogo } from "@/components/TransrioLogo";
 import {
   ADDRESS,
   ADDRESS_MAPS_URL,
@@ -12,44 +12,36 @@ import {
   quoteMessage,
   whatsappUrl,
 } from "@/lib/contact";
-import { media } from "@/lib/media";
+import { DEFAULT_DESCRIPTION } from "@/lib/site";
 
-const NAV_LINKS = [
-  { label: "Inicio", href: "/" },
-  { label: "Quiénes somos", href: "/quienes-somos" },
-  { label: "Paquetes", href: "/paquetes" },
-  { label: "Salida grupal", href: "/salida-grupal" },
-  { label: "Contacto", href: "/contacto" },
-];
+const NAV = [
+  { href: "/", label: "Inicio" },
+  { href: "/quienes-somos", label: "Quiénes somos" },
+  { href: "/paquetes", label: "Paquetes" },
+  { href: "/salida-grupal", label: "Salida grupal" },
+  { href: "/contacto", label: "Contacto" },
+] as const;
 
 export function SiteFooter() {
-  const wa = whatsappUrl(quoteMessage());
-  const year = 2026;
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-brand-black-light px-6 py-12 text-white/70">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:justify-between">
-        <div className="max-w-xs">
-          <Link href="/" className="relative block h-10 w-[150px]">
-            <Image
-              src={media("/logo-transrio.png")}
-              alt="Transrio Turismo — operador de viajes en Posadas"
-              fill
-              sizes="150px"
-              className="object-contain object-left"
-            />
+    <footer className="mt-auto bg-brand-black-light text-white">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_1fr_1fr] lg:gap-14">
+        <div className="sm:col-span-2 lg:col-span-1">
+          <Link href="/" className="inline-block">
+            <TransrioLogo variant="dark" />
           </Link>
-          <p className="mt-4 text-sm leading-relaxed">
-            Agencia de viajes en Posadas. Paquetes a Brasil con salidas
-            programadas y armado de salidas grupales a medida.
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/55">
+            {DEFAULT_DESCRIPTION}
           </p>
-          <div className="mt-5 flex items-center gap-3">
+          <div className="mt-5 flex gap-2">
             <a
               href={SOCIAL_LINKS.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram de Transrio Turismo"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/80 transition hover:border-white/40 hover:text-white"
+              aria-label="Instagram"
             >
               <InstagramIcon className="h-4 w-4" />
             </a>
@@ -57,78 +49,75 @@ export function SiteFooter() {
               href={SOCIAL_LINKS.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Facebook de Transrio Turismo"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/80 transition hover:border-white/40 hover:text-white"
+              aria-label="Facebook"
             >
               <FacebookIcon className="h-4 w-4" />
             </a>
             <a
-              href={wa}
+              href={whatsappUrl(quoteMessage())}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="WhatsApp de Transrio Turismo"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/80 transition hover:border-white/40 hover:text-white"
+              aria-label="WhatsApp"
             >
               <WhatsAppIcon className="h-4 w-4" />
             </a>
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-x-16 gap-y-8">
-          <div>
-            <p className="text-xs font-semibold tracking-wide text-white uppercase">
-              Navegación
-            </p>
-            <ul className="mt-3 flex flex-col gap-2 text-sm">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-white">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+            Navegación
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-white/75 transition hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-          <div>
-            <p className="text-xs font-semibold tracking-wide text-white uppercase">
-              Contacto
-            </p>
-            <ul className="mt-3 flex flex-col gap-2 text-sm">
-              <li>
-                <a
-                  className="hover:text-white"
-                  href={`tel:${PHONES.fijoTel}`}
-                >
-                  {PHONES.fijo}
-                </a>
-              </li>
-              <li>
-                <a
-                  className="hover:text-white"
-                  href={`tel:${PHONES.movilTel}`}
-                >
-                  {PHONES.movil}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={ADDRESS_MAPS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white"
-                >
-                  {ADDRESS}
-                </a>
-              </li>
-              <li className="text-white/50">{HOURS}</li>
-            </ul>
-          </div>
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+            Contacto
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm text-white/75">
+            <li>
+              <a href={`tel:${PHONES.fijoTel}`} className="hover:text-white">
+                {PHONES.fijo}
+              </a>
+            </li>
+            <li>
+              <a href={`tel:${PHONES.movilTel}`} className="hover:text-white">
+                {PHONES.movil}
+              </a>
+            </li>
+            <li>
+              <a
+                href={ADDRESS_MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                {ADDRESS}
+              </a>
+            </li>
+            <li className="text-white/50">{HOURS}</li>
+          </ul>
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/40 md:flex-row md:items-center md:justify-between">
-        <p>© {year} Transrio Turismo. Todos los derechos reservados.</p>
+      <div className="border-t border-white/10">
+        <p className="mx-auto max-w-6xl px-4 py-4 text-xs text-white/40">
+          © {year} Transrio Turismo. Todos los derechos reservados.
+        </p>
       </div>
     </footer>
   );
