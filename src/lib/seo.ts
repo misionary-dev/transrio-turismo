@@ -40,7 +40,6 @@ export const TRAVEL_AGENCY_JSON_LD = {
   sameAs: [
     SOCIAL_LINKS.instagram,
     SOCIAL_LINKS.facebook,
-    "https://www.transrioturismo.tur.ar/travel/",
   ],
   areaServed: {
     "@type": "AdministrativeArea",

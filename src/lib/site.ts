@@ -1,5 +1,5 @@
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://transrio.misionary.dev"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.transrioturismo.tur.ar"
 ).replace(/\/$/, "");
 
 export const SITE_NAME = "Transrio Turismo";
