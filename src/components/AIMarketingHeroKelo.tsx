@@ -38,6 +38,7 @@ export default function AIMarketingHeroKelo({
         className="pointer-events-none absolute inset-0 z-[1]"
         style={{
           background:
+            "radial-gradient(ellipse 55% 42% at 50% 52%, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0) 70%), " +
             "linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.04) 32%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.04) 72%, rgba(0,0,0,0.38) 100%)",
         }}
       />
@@ -60,7 +61,7 @@ export default function AIMarketingHeroKelo({
             delay: 0.1,
             ease: [0.25, 0.1, 0.25, 1] as const,
           }}
-          className="mb-3 max-w-4xl text-center text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.02em] text-white md:mb-4 md:text-6xl lg:text-[62px]"
+          className="mb-3 max-w-4xl text-center text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.02em] text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.35),0_4px_24px_rgba(0,0,0,0.45)] md:mb-4 md:text-6xl lg:text-[62px]"
         >
           Brasil te espera.
           <br />
@@ -75,7 +76,7 @@ export default function AIMarketingHeroKelo({
             delay: 0.2,
             ease: [0.25, 0.1, 0.25, 1] as const,
           }}
-          className="mb-6 max-w-[480px] text-center text-sm leading-relaxed text-white/85 md:mb-8 md:text-lg"
+          className="mb-6 max-w-[480px] text-center text-sm leading-relaxed text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,0.5),0_2px_14px_rgba(0,0,0,0.4)] md:mb-8 md:text-lg"
         >
           Paquetes a Torres, Capão da Canoa y Camboriú desde Posadas. Salidas
           2026 con bus cama + hotel.
@@ -97,7 +98,9 @@ export default function AIMarketingHeroKelo({
           >
             Conocé nuestros paquetes
           </Link>
-          <span className="text-sm text-white/60">{HOURS}</span>
+          <span className="text-sm text-white/85 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
+            {HOURS}
+          </span>
         </motion.div>
       </section>
     </div>
