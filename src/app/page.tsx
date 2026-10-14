@@ -6,7 +6,9 @@ import { PackagesIntro } from "@/components/packages/PackagesIntro";
 import { PackageCardCarousel } from "@/components/packages/PackageCardCarousel";
 import { GroupDepartureSection } from "@/components/GroupDepartureSection";
 import { ContactSection } from "@/components/ContactSection";
+import { CampaignBackdrop, CampaignHeroBadges } from "@/components/Campaigns";
 import { packageDetails } from "@/data/package-details";
+import { activeCampaignKey } from "@/lib/campaigns";
 import { FAQ_JSON_LD, packageListJsonLd } from "@/lib/seo";
 import { DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/site";
 
@@ -19,11 +21,14 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const campaigns = activeCampaignKey();
+
   return (
     <>
       <JsonLd data={packageListJsonLd()} />
       <JsonLd data={FAQ_JSON_LD} />
-      <AIMarketingHeroKelo />
+      <CampaignBackdrop active={campaigns} />
+      <AIMarketingHeroKelo badge={<CampaignHeroBadges active={campaigns} />} />
 
       {/* Diseño 1 — card con carrusel de fotos */}
       <section className="bg-white">

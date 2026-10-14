@@ -3,6 +3,7 @@ import { DM_Sans, Funnel_Display } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { activeCampaignKey } from "@/lib/campaigns";
 import { TRAVEL_AGENCY_JSON_LD } from "@/lib/seo";
 import {
   DEFAULT_DESCRIPTION,
@@ -56,7 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col font-sans">
         <JsonLd data={TRAVEL_AGENCY_JSON_LD} />
-        <SiteHeader />
+        <SiteHeader campaigns={activeCampaignKey()} />
         {children}
         <SiteFooter />
       </body>

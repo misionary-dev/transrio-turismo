@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Clock, MapPin } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { media } from "@/lib/media";
+import { CampaignHeaderMarks } from "@/components/Campaigns";
 import {
   ADDRESS,
   ADDRESS_MAPS_URL,
@@ -22,7 +23,7 @@ const NAV_LINKS = [
   { label: "Contacto", href: "/contacto" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({ campaigns }: { campaigns: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const wa = whatsappUrl(quoteMessage());
 
@@ -48,19 +49,22 @@ export function SiteHeader() {
 
       <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-brand-white">
         <nav className="mx-auto grid max-w-7xl grid-cols-2 items-center gap-4 px-4 py-3 md:grid-cols-[1fr_auto_1fr] md:px-8 md:py-4">
-          <Link
-            href="/"
-            className="relative flex h-9 w-[130px] shrink-0 items-center justify-self-start md:h-11 md:w-[156px]"
-          >
-            <Image
-              src={media("/logo-transrio.png")}
-              alt="Transrio Turismo — operador de viajes en Posadas"
-              fill
-              priority
-              sizes="156px"
-              className="object-contain object-left"
-            />
-          </Link>
+          <div className="flex items-center gap-3 justify-self-start">
+            <Link
+              href="/"
+              className="relative flex h-9 w-[130px] shrink-0 items-center md:h-11 md:w-[156px]"
+            >
+              <Image
+                src={media("/logo-transrio.png")}
+                alt="Transrio Turismo — operador de viajes en Posadas"
+                fill
+                priority
+                sizes="156px"
+                className="object-contain object-left"
+              />
+            </Link>
+            <CampaignHeaderMarks active={campaigns} />
+          </div>
 
           <div className="hidden items-center gap-1 justify-self-center md:flex">
             {NAV_LINKS.map((link) => (
