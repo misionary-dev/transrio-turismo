@@ -34,7 +34,7 @@ export const TRAVEL_AGENCY_JSON_LD = {
     latitude: GEO.latitude,
     longitude: GEO.longitude,
   },
-  openingHours: "Mo-Fr 08:30-12:00,16:00-20:00",
+  openingHours: ["Mo-Fr 08:30-19:00", "Sa 08:00-12:00"],
   description:
     "Operador turístico regional en Posadas. Paquetes a Brasil en ómnibus cama Río Uruguay.",
   sameAs: [

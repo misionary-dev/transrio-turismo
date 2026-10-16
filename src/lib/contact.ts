@@ -8,7 +8,7 @@ export const PHONES = {
   movilTel: "+5493764292909",
 } as const;
 
-export const HOURS = "Lun–Vie 08:30 a 12:00 y 16:00 a 20:00";
+export const HOURS = "Lun–Vie 08:30 a 19:00 · Sáb 08:00 a 12:00";
 
 export const ADDRESS = "Av. Quaranta 3837, Posadas, Misiones, Argentina";
 
