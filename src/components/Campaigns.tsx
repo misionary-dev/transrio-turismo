@@ -43,6 +43,8 @@ function CampaignMark({
           alt={campaign.image.alt}
           fill
           sizes="40px"
+          fetchPriority="low"
+          loading="lazy"
           className="object-contain"
         />
       </span>

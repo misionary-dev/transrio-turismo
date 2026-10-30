@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { Calendar, MapPin, ShieldCheck, Utensils } from "lucide-react";
 import { JsonLd } from "@/components/JsonLd";
+import Image from "next/image";
 import { PackageHero } from "@/components/packages/PackageHero";
 import { packageDetails } from "@/data/package-details";
 import { quoteMessage, whatsappUrl } from "@/lib/contact";
@@ -90,7 +90,10 @@ export default async function PaqueteDetallePage(
                     src={src}
                     alt={title}
                     fill
+                    quality={50}
                     sizes="(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw"
+                    fetchPriority="low"
+                    loading="lazy"
                     className="object-cover"
                   />
                 </div>
@@ -152,9 +155,9 @@ export default async function PaqueteDetallePage(
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-2xl border border-black/5 bg-brand-white p-5">
             <p className="text-lg font-semibold">
-              Desde <span className="text-brand-red-mid">{amount}</span>
+              Desde <span className="text-brand">{amount}</span>
             </p>
-            <p className="mt-1 text-sm text-brand-black/50">
+            <p className="mt-1 text-sm text-brand-black/70">
               por persona, coche cama
             </p>
             <a

@@ -17,12 +17,16 @@ const dmSans = DM_Sans({
   variable: "--font-dm",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  preload: false,
 });
 
 const funnel = Funnel_Display({
   variable: "--font-funnel",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["600"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -56,6 +60,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dmSans.variable} ${funnel.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "setTimeout(function(){document.documentElement.classList.add('fonts-ready')},300)",
+          }}
+        />
         <JsonLd data={TRAVEL_AGENCY_JSON_LD} />
         <SiteHeader campaigns={activeCampaignKey()} />
         {children}

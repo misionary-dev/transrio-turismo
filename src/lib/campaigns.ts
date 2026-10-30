@@ -1,4 +1,5 @@
-import type { ComponentType } from "react";
+import type { ComponentType, SVGProps } from "react";
+import { MateIcon } from "@/components/icons/MateIcon";
 import {
   Egg,
   Flower2,
@@ -10,8 +11,7 @@ import {
   Sun,
   Tag,
   Zap,
-} from "lucide-react";
-import { MateIcon } from "@/components/icons/MateIcon";
+} from "@/components/icons/ui";
 import { whatsappUrl } from "@/lib/contact";
 
 /**
@@ -29,7 +29,7 @@ export type Campaign = {
   color: string;
   /** Imagen en R2 (key) o ícono; si hay imagen, tiene prioridad. */
   image?: { key: string; ratio: string; alt: string };
-  icon?: ComponentType<{ className?: string }>;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   href?: string;
   /** Tinte de fondo del home (solo la campaña activa de mayor prioridad). */
   tint?: string;

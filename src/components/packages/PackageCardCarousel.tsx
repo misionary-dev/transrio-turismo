@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,7 +12,7 @@ import {
   Snowflake,
   Flower2,
   ImageOff,
-} from "lucide-react";
+} from "@/components/icons/ui";
 import { cn } from "@/lib/utils";
 import type { PackageDetail } from "@/data/package-details";
 import { quoteMessage, whatsappUrl } from "@/lib/contact";
@@ -33,19 +32,6 @@ const SEASON_ICON: Record<Season, typeof Sun> = {
   Primavera: Flower2,
 };
 
-const carouselVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? "100%" : "-100%",
-    opacity: 0,
-  }),
-  center: { zIndex: 1, x: 0, opacity: 1 },
-  exit: (direction: number) => ({
-    zIndex: 0,
-    x: direction < 0 ? "100%" : "-100%",
-    opacity: 0,
-  }),
-};
-
 export function PackageCardCarousel({
   pkg,
   heading = "h3",
@@ -56,7 +42,24 @@ export function PackageCardCarousel({
   const TitleTag = heading;
   const images = getCardImages(pkg);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [showImage, setShowImage] = useState(false);
+
+  useEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShowImage(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const title = getDisplayTitle(pkg);
   const duration = getDurationLabel(pkg);
@@ -68,7 +71,6 @@ export function PackageCardCarousel({
   );
 
   function changeImage(dir: number) {
-    setDirection(dir);
     setCurrentIndex((prev) => {
       const next = prev + dir;
       if (next < 0) return images.length - 1;
@@ -78,49 +80,26 @@ export function PackageCardCarousel({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{
-        scale: 1.02,
-        boxShadow: "0 20px 40px -12px rgba(1,1,1,0.18)",
-      }}
-      className="w-full overflow-hidden rounded-2xl border border-black/5 bg-white text-brand-black shadow-md"
-    >
+    <div className="w-full overflow-hidden rounded-2xl border border-black/5 bg-white text-brand-black shadow-md transition duration-300 hover:shadow-xl">
       {/* Carrusel de imágenes — click abre detalle; flechas no bloquean el resto */}
-      <div className="group relative h-64 bg-brand-black-light">
+      <div ref={frameRef} className="group relative h-64 bg-brand-black-light">
         <Link
           href={`/paquetes/${pkg.slug}`}
           className="absolute inset-0 z-0 cursor-pointer"
           aria-label={`Ver ${title}`}
         >
-          {images.length > 0 ? (
-            <AnimatePresence initial={false} custom={direction}>
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={carouselVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 },
-                }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={images[currentIndex]}
-                  alt={title}
-                  fill
-                  sizes="(min-width: 1024px) 360px, 100vw"
-                  className="object-cover"
-                />
-              </motion.div>
-            </AnimatePresence>
-          ) : (
+          {images.length > 0 && showImage ? (
+            <Image
+              key={images[currentIndex]}
+              src={images[currentIndex]}
+              alt={title}
+              fill
+              quality={50}
+              sizes="(min-width: 1024px) 360px, 100vw"
+              fetchPriority="low"
+              className="object-cover"
+            />
+          ) : images.length > 0 ? null : (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/50">
               <ImageOff className="h-8 w-8" />
               <span className="text-xs font-medium">Foto próximamente</span>
@@ -163,7 +142,7 @@ export function PackageCardCarousel({
         ) : null}
 
         {images.length > 1 ? (
-          <div className="pointer-events-none absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+          <div className="pointer-events-none absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2">
             {images.map((_, index) => (
               <button
                 key={index}
@@ -173,13 +152,17 @@ export function PackageCardCarousel({
                   setCurrentIndex(index);
                 }}
                 aria-label={`Ir a la foto ${index + 1}`}
-                className={cn(
-                  "pointer-events-auto h-1.5 rounded-full transition-all",
-                  currentIndex === index
-                    ? "w-4 bg-white"
-                    : "w-1.5 bg-white/50",
-                )}
-              />
+                className="pointer-events-auto flex h-6 w-6 items-center justify-center"
+              >
+                <span
+                  className={cn(
+                    "rounded-full",
+                    currentIndex === index
+                      ? "h-1.5 w-4 bg-white"
+                      : "h-1.5 w-1.5 bg-white/50",
+                  )}
+                />
+              </button>
             ))}
           </div>
         ) : null}
@@ -223,6 +206,6 @@ export function PackageCardCarousel({
           </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

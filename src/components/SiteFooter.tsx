@@ -67,7 +67,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">
             Navegación
           </p>
           <ul className="mt-4 space-y-2.5 text-sm">
@@ -85,7 +85,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/60">
             Contacto
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-white/75">
@@ -115,7 +115,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-4 py-4 text-xs text-white/40">
+        <p className="mx-auto max-w-6xl px-4 py-4 text-xs text-white/60">
           © {year} Transrio Turismo. Todos los derechos reservados.
         </p>
       </div>
