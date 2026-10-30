@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import AIMarketingHeroKelo from "@/components/AIMarketingHeroKelo";
+import { CampanaBanner } from "@/components/CampanaBanner";
 import { JsonLd } from "@/components/JsonLd";
 import { PackagesIntro } from "@/components/packages/PackagesIntro";
 import { PackageCardCarousel } from "@/components/packages/PackageCardCarousel";
@@ -24,11 +25,12 @@ export default function Home() {
   const campaigns = activeCampaignKey();
 
   return (
-    <>
+    <main>
       <JsonLd data={packageListJsonLd()} />
       <JsonLd data={FAQ_JSON_LD} />
       <CampaignBackdrop active={campaigns} />
       <AIMarketingHeroKelo badge={<CampaignHeroBadges active={campaigns} />} />
+      <CampanaBanner />
 
       {/* Diseño 1 — card con carrusel de fotos */}
       <section className="bg-white">
@@ -51,6 +53,6 @@ export default function Home() {
       <GroupDepartureSection />
 
       <ContactSection />
-    </>
+    </main>
   );
 }

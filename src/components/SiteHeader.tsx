@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, MapPin } from "@/components/icons/ui";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { media } from "@/lib/media";
 import { CampaignHeaderMarks } from "@/components/Campaigns";
@@ -58,8 +58,9 @@ export function SiteHeader({ campaigns }: { campaigns: string }) {
                 src={media("/logo-transrio.png")}
                 alt="Transrio Turismo — operador de viajes en Posadas"
                 fill
-                priority
-                sizes="156px"
+                loading="lazy"
+                fetchPriority="low"
+                sizes="(min-width: 768px) 156px, 130px"
                 className="object-contain object-left"
               />
             </Link>

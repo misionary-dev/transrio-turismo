@@ -15,6 +15,8 @@ export function TransrioLogo({ className, variant = "light" }: Props) {
       alt="Transrio Turismo"
       width={240}
       height={64}
+      loading="lazy"
+      fetchPriority="low"
       className={cn(
         "h-11 w-auto max-w-[200px] object-contain object-left",
         variant === "dark" && "[filter:invert(1)_hue-rotate(180deg)_saturate(1.35)]",

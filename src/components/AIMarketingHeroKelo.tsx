@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { HOURS } from "@/lib/contact";
 
@@ -15,6 +15,21 @@ export default function AIMarketingHeroKelo({
   className,
   badge,
 }: AIMarketingHeroKeloProps) {
+  const [playVideo, setPlayVideo] = useState(false);
+
+  useEffect(() => {
+    let timeoutId = 0;
+    const arm = () => {
+      timeoutId = window.setTimeout(() => setPlayVideo(true), 8000);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.removeEventListener("load", arm);
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
+
   return (
     <div
       className={cn(
@@ -23,19 +38,33 @@ export default function AIMarketingHeroKelo({
       )}
       style={{ fontFamily: "var(--font-dm), sans-serif" }}
     >
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className="absolute inset-0 z-0 h-full w-full object-cover object-[42%_center]"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      <Image
+        src="/videos/hero-poster.webp"
+        alt=""
+        fill
+        preload
+        fetchPriority="high"
+        sizes="100vw"
+        quality={50}
+        className="object-cover object-[42%_center]"
+      />
+
+      {playVideo ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="absolute inset-0 z-[1] h-full w-full object-cover object-[42%_center]"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      ) : null}
 
       <div
-        className="pointer-events-none absolute inset-0 z-[1]"
+        className="pointer-events-none absolute inset-0 z-[2]"
         style={{
           background:
             "radial-gradient(ellipse 55% 42% at 50% 52%, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0) 70%), " +
@@ -44,54 +73,19 @@ export default function AIMarketingHeroKelo({
       />
 
       <section className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
-        {badge ? (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const }}
-          >
-            {badge}
-          </motion.div>
-        ) : null}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.6,
-            delay: 0.1,
-            ease: [0.25, 0.1, 0.25, 1] as const,
-          }}
-          className="mb-3 max-w-4xl text-center text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.02em] text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.35),0_4px_24px_rgba(0,0,0,0.45)] md:mb-4 md:text-6xl lg:text-[62px]"
-        >
+        {badge ? <div className="mb-0">{badge}</div> : null}
+        <h1 className="mb-3 max-w-4xl text-center text-[2.15rem] leading-[1.08] font-semibold tracking-[-0.02em] text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.35),0_4px_24px_rgba(0,0,0,0.45)] md:mb-4 md:text-6xl lg:text-[62px]">
           Brasil te espera.
           <br />
           Nosotros te <span className="italic">llevamos</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.6,
-            delay: 0.2,
-            ease: [0.25, 0.1, 0.25, 1] as const,
-          }}
-          className="mb-6 max-w-[480px] text-center text-sm leading-relaxed text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,0.5),0_2px_14px_rgba(0,0,0,0.4)] md:mb-8 md:text-lg"
-        >
+        <p className="mb-6 max-w-[480px] text-center text-sm leading-relaxed text-white/95 [text-shadow:0_1px_3px_rgba(0,0,0,0.5),0_2px_14px_rgba(0,0,0,0.4)] md:mb-8 md:text-lg">
           Paquetes a Torres, Capão da Canoa y Camboriú desde Posadas. Salidas
           2026 con bus cama + hotel.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.6,
-            delay: 0.3,
-            ease: [0.25, 0.1, 0.25, 1] as const,
-          }}
-          className="flex flex-col items-center gap-3"
-        >
+        <div className="flex flex-col items-center gap-3">
           <Link
             href="/paquetes"
             className="rounded-full bg-brand-red-mid px-7 py-3 text-[15px] font-semibold text-white transition-all hover:scale-105 hover:brightness-110 active:scale-95 md:px-8 md:py-4 md:text-base"
@@ -101,7 +95,7 @@ export default function AIMarketingHeroKelo({
           <span className="text-sm text-white/85 [text-shadow:0_1px_3px_rgba(0,0,0,0.55)]">
             {HOURS}
           </span>
-        </motion.div>
+        </div>
       </section>
     </div>
   );

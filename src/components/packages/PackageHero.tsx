@@ -1,13 +1,6 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { ArrowLeft, ImageOff } from "lucide-react";
-
-gsap.registerPlugin(useGSAP);
 
 export function PackageHero({
   title,
@@ -22,35 +15,17 @@ export function PackageHero({
   image: string | undefined;
   wa: string;
 }) {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        tl.from("[data-pkg-kicker]", { opacity: 0, y: 16, duration: 0.6 })
-          .from("[data-pkg-title]", { opacity: 0, y: 28, duration: 0.8 }, "-=0.35")
-          .from("[data-pkg-meta]", { opacity: 0, y: 16, duration: 0.55 }, "-=0.4")
-          .from("[data-pkg-cta]", { opacity: 0, y: 12, duration: 0.5 }, "-=0.3");
-      });
-      return () => mm.revert();
-    },
-    { scope: root },
-  );
-
   return (
-    <section
-      ref={root}
-      className="relative flex min-h-[70svh] flex-col justify-end overflow-hidden"
-    >
+    <section className="relative flex min-h-[70svh] flex-col justify-end overflow-hidden">
       <div className="absolute inset-0 z-0 bg-brand-black-light">
         {image ? (
           <Image
             src={image}
             alt={title}
             fill
-            priority
+            preload
+            fetchPriority="high"
+            quality={50}
             sizes="100vw"
             className="object-cover"
           />
@@ -73,29 +48,22 @@ export function PackageHero({
         </Link>
 
         {season ? (
-          <p
-            data-pkg-kicker
-            className="font-[family-name:var(--font-funnel)] text-sm tracking-[0.28em] text-sand uppercase"
-          >
+          <p className="font-[family-name:var(--font-funnel)] text-sm tracking-[0.28em] text-sand uppercase">
             {season}
           </p>
         ) : null}
 
-        <h1
-          data-pkg-title
-          className="mt-3 max-w-4xl font-[family-name:var(--font-funnel)] text-4xl leading-[1.05] font-semibold tracking-tight text-white md:text-6xl"
-        >
+        <h1 className="mt-3 max-w-4xl font-[family-name:var(--font-funnel)] text-4xl leading-[1.05] font-semibold tracking-tight text-white md:text-6xl">
           {title}
         </h1>
 
         {duration ? (
-          <p data-pkg-meta className="mt-3 text-base text-white/80 md:text-lg">
+          <p className="mt-3 text-base text-white/80 md:text-lg">
             {duration} · salida desde Posadas
           </p>
         ) : null}
 
         <a
-          data-pkg-cta
           href={wa}
           target="_blank"
           rel="noopener noreferrer"

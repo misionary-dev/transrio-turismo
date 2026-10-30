@@ -37,8 +37,17 @@
   --color-brand-red-light: var(--brand-red-light);
 }
 
+/* La fuente real entra después del primer paint para no competir con el LCP.
+   El fallback usa las métricas de next/font (size-adjust) y no mueve el layout. */
 html {
   scroll-behavior: auto;
+  --font-dm: "DM Sans Fallback", system-ui, sans-serif !important;
+  --font-funnel: "Funnel Display Fallback", system-ui, sans-serif !important;
+}
+
+html.fonts-ready {
+  --font-dm: "DM Sans", "DM Sans Fallback", system-ui, sans-serif !important;
+  --font-funnel: "Funnel Display", "Funnel Display Fallback", system-ui, sans-serif !important;
 }
 
 body {
