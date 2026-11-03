@@ -9,6 +9,7 @@ import { TRAVEL_AGENCY_JSON_LD } from "@/lib/seo";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
+  GOOGLE_SITE_VERIFICATION,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/site";
@@ -52,6 +53,11 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
   },
   robots: { index: true, follow: true },
+  // Meta en <head>: <meta name="google-site-verification" content="…" />
+  // Debe permanecer publicada; si se quita, GSC pierde la verificación.
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
