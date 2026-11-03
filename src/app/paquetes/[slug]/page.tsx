@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Calendar, MapPin, ShieldCheck, Utensils } from "lucide-react";
+import { TrackPackageView } from "@/components/analytics/TrackPackageView";
 import { JsonLd } from "@/components/JsonLd";
 import Image from "next/image";
 import { PackageHero } from "@/components/packages/PackageHero";
@@ -64,6 +65,7 @@ export default async function PaqueteDetallePage(
 
   return (
     <main className="bg-white">
+      <TrackPackageView slug={pkg.slug} name={title} priceLabel={amount} />
       <JsonLd data={touristTripJsonLd(pkg)} />
       <PackageHero
         title={title}

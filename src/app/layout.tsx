@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Funnel_Display } from "next/font/google";
+import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "setTimeout(function(){document.documentElement.classList.add('fonts-ready')},300)",
           }}
         />
+        <SiteAnalytics />
         <JsonLd data={TRAVEL_AGENCY_JSON_LD} />
         <SiteHeader campaigns={activeCampaignKey()} />
         {children}
