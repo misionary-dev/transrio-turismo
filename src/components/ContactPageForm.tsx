@@ -70,6 +70,8 @@ export function ContactPageForm() {
             {/* Sin conectar todavía — falta definir el servicio de envío de mail */}
             <button
               type="button"
+              data-analytics="cta"
+              data-analytics-location="contacto"
               className="mt-2 rounded-full bg-brand-red-mid px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
             >
               Enviar consulta

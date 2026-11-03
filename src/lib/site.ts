@@ -2,6 +2,11 @@ export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.transrioturismo.tur.ar"
 ).replace(/\/$/, "");
 
+/** Token meta de Google Search Console (no borrar tras verificar). */
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
+  "lf-dcdAcSA8EhFFZDmOMyP0kndCXEjS2V12KrYWHN4k";
+
 export const SITE_NAME = "Transrio Turismo";
 
 export const DEFAULT_TITLE =

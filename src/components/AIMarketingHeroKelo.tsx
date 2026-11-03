@@ -88,6 +88,8 @@ export default function AIMarketingHeroKelo({
         <div className="flex flex-col items-center gap-3">
           <Link
             href="/paquetes"
+            data-analytics="cta"
+            data-analytics-location="hero"
             className="rounded-full bg-brand-red-mid px-7 py-3 text-[15px] font-semibold text-white transition-all hover:scale-105 hover:brightness-110 active:scale-95 md:px-8 md:py-4 md:text-base"
           >
             Conocé nuestros paquetes

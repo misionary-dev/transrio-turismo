@@ -65,3 +65,29 @@ export function getPriceAmount(pkg: PackageDetail): string {
   const match = pkg.precios.cocheCama.match(/desde\s+([\d.,]+)\s*USD/i);
   return match ? `USD ${match[1]}` : pkg.precios.cocheCama;
 }
+
+/** Precio numérico en USD. El punto es separador de miles (455, 1.200). */
+export function getPriceValue(pkg: PackageDetail): number | null {
+  const amount = getPriceAmount(pkg).replace(/^USD\s+/i, "");
+  if (!/^[\d.,]+$/.test(amount)) return null;
+  const numeric = Number(amount.replace(/\./g, "").replace(",", "."));
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+/** Atributos explícitos para select_item. El listener no infiere el clic por el texto. */
+export function selectItemAnalytics(pkg: PackageDetail): Record<string, string> {
+  const price = getPriceValue(pkg);
+  const attrs: Record<string, string> = {
+    "data-analytics": "select_item",
+    "data-analytics-location": "paquete",
+    "data-analytics-item-id": pkg.slug,
+    "data-analytics-item-name": getDisplayTitle(pkg),
+    "data-analytics-item-category": "paquete",
+    "data-analytics-currency": "USD",
+  };
+  if (price != null) {
+    attrs["data-analytics-price"] = String(price);
+    attrs["data-analytics-value"] = String(price);
+  }
+  return attrs;
+}

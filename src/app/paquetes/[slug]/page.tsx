@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Calendar, MapPin, ShieldCheck, Utensils } from "lucide-react";
+import { TrackPackageView } from "@/components/analytics/TrackPackageView";
 import { JsonLd } from "@/components/JsonLd";
 import Image from "next/image";
 import { PackageHero } from "@/components/packages/PackageHero";
@@ -11,6 +12,7 @@ import {
   getDisplayTitle,
   getDurationLabel,
   getPriceAmount,
+  getPriceValue,
   getSeason,
 } from "@/lib/package-presentation";
 import { touristTripJsonLd } from "@/lib/seo";
@@ -53,6 +55,7 @@ export default async function PaqueteDetallePage(
   const duration = getDurationLabel(pkg);
   const season = getSeason(pkg);
   const amount = getPriceAmount(pkg);
+  const price = getPriceValue(pkg);
   const wa = whatsappUrl(
     quoteMessage({ destination: title, duration: duration || undefined }),
   );
@@ -64,6 +67,9 @@ export default async function PaqueteDetallePage(
 
   return (
     <main className="bg-white">
+      {price != null ? (
+        <TrackPackageView slug={pkg.slug} name={title} price={price} />
+      ) : null}
       <JsonLd data={touristTripJsonLd(pkg)} />
       <PackageHero
         title={title}

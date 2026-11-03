@@ -43,6 +43,8 @@ export default function Home() {
         <div className="flex justify-center px-6 pt-10 pb-20">
           <Link
             href="/paquetes"
+            data-analytics="cta"
+            data-analytics-location="home_paquetes"
             className="rounded-full bg-brand-red-mid px-7 py-3 text-sm font-semibold text-white transition hover:brightness-110"
           >
             Conocé todos nuestros paquetes

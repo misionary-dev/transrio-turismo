@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { DM_Sans, Funnel_Display } from "next/font/google";
+import localFont from "next/font/local";
+import { SiteAnalytics } from "@/components/analytics/SiteAnalytics";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -8,25 +9,31 @@ import { TRAVEL_AGENCY_JSON_LD } from "@/lib/seo";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
+  GOOGLE_SITE_VERIFICATION,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/site";
+import "./fonts.css";
 import "./globals.css";
 
-const dmSans = DM_Sans({
-  variable: "--font-dm",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const dmSans = localFont({
+  src: "../fonts/dm-sans-latin.woff2",
+  variable: "--font-dm-loaded",
   display: "swap",
+  weight: "100 1000",
   preload: false,
+  adjustFontFallback: "Arial",
+  fallback: ["DM Sans Fallback", "system-ui", "sans-serif"],
 });
 
-const funnel = Funnel_Display({
-  variable: "--font-funnel",
-  subsets: ["latin"],
-  weight: ["600"],
+const funnel = localFont({
+  src: "../fonts/funnel-display-latin.woff2",
+  variable: "--font-funnel-loaded",
   display: "swap",
+  weight: "600",
   preload: false,
+  adjustFontFallback: "Arial",
+  fallback: ["Funnel Display Fallback", "system-ui", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -51,6 +58,11 @@ export const metadata: Metadata = {
     description: DEFAULT_DESCRIPTION,
   },
   robots: { index: true, follow: true },
+  // Meta en <head>: <meta name="google-site-verification" content="…" />
+  // Debe permanecer publicada; si se quita, GSC pierde la verificación.
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -66,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "setTimeout(function(){document.documentElement.classList.add('fonts-ready')},300)",
           }}
         />
+        <SiteAnalytics />
         <JsonLd data={TRAVEL_AGENCY_JSON_LD} />
         <SiteHeader campaigns={activeCampaignKey()} />
         {children}
