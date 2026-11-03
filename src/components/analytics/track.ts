@@ -1,27 +1,14 @@
 "use client";
 
+import { sendGTMEvent } from "@next/third-parties/google";
+
 type GaParams = Record<string, string | number | boolean | undefined>;
 
-declare global {
-  interface Window {
-    dataLayer?: IArguments[];
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 /**
- * Empuja a dataLayer con el mismo contrato que gtag()
- * (`dataLayer.push(arguments)`), así los eventos se encolan
- * aunque <GoogleAnalytics /> aún no haya hidratado.
+ * Empuja un Custom Event al dataLayer (formato GTM).
+ * En el contenedor: trigger tipo “Custom Event” con el mismo `event` name,
+ * y un tag GA4 Event que lo reenvíe a la propiedad G-7PSZ21CFV9.
  */
-function gtagCommand() {
-  window.dataLayer = window.dataLayer || [];
-  // gtag.js inspecciona Arguments, no un Array literal
-  // eslint-disable-next-line prefer-rest-params
-  window.dataLayer.push(arguments);
-}
-
-/** Envía un evento a GA4. */
 export function trackEvent(name: string, params: GaParams = {}) {
   if (typeof window === "undefined") return;
   const cleaned: Record<string, string | number | boolean> = {};
@@ -29,10 +16,5 @@ export function trackEvent(name: string, params: GaParams = {}) {
     if (value === undefined || value === "") continue;
     cleaned[key] = value;
   }
-
-  if (typeof window.gtag === "function") {
-    window.gtag("event", name, cleaned);
-    return;
-  }
-  gtagCommand("event", name, cleaned);
+  sendGTMEvent({ event: name, ...cleaned });
 }
