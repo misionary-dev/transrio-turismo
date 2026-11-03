@@ -19,6 +19,8 @@ export function GroupDepartureSection() {
           </p>
           <Link
             href="/salida-grupal"
+            data-analytics="cta"
+            data-analytics-location="salida_grupal"
             className="mt-8 inline-block rounded-full bg-brand-red-mid px-7 py-3 text-sm font-semibold text-white transition hover:brightness-110"
           >
             Conocé la salida grupal

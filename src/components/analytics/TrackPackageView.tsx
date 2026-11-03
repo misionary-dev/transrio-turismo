@@ -1,28 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
-import { GA_EVENTS } from "@/lib/analytics";
-import { trackEvent } from "@/components/analytics/track";
+import { trackItem } from "@/components/analytics/track";
 
 type Props = {
   slug: string;
   name: string;
-  /** Precio display (ej. "USD 1.200"); no se parsea a number. */
-  priceLabel?: string;
+  price: number;
 };
 
-/** Dispara view_item (ecommerce recomendado) al abrir un paquete. */
-export function TrackPackageView({ slug, name, priceLabel }: Props) {
+/** Dispara view_item (ecommerce GA4) al abrir un paquete. */
+export function TrackPackageView({ slug, name, price }: Props) {
   useEffect(() => {
-    trackEvent(GA_EVENTS.viewItem, {
-      currency: "USD",
+    trackItem("view_item", {
       item_id: slug,
       item_name: name,
+      price,
       item_category: "paquete",
-      price_label: priceLabel,
-      page_path: `/paquetes/${slug}`,
     });
-  }, [slug, name, priceLabel]);
+  }, [slug, name, price]);
 
   return null;
 }

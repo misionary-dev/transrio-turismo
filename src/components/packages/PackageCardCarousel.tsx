@@ -22,6 +22,7 @@ import {
   getDurationLabel,
   getPriceAmount,
   getSeason,
+  selectItemAnalytics,
   type Season,
 } from "@/lib/package-presentation";
 
@@ -66,6 +67,7 @@ export function PackageCardCarousel({
   const season = getSeason(pkg);
   const SeasonIcon = season ? SEASON_ICON[season] : null;
   const amount = getPriceAmount(pkg);
+  const itemAnalytics = selectItemAnalytics(pkg);
   const wa = whatsappUrl(
     quoteMessage({ destination: title, duration: duration || undefined }),
   );
@@ -87,6 +89,7 @@ export function PackageCardCarousel({
           href={`/paquetes/${pkg.slug}`}
           className="absolute inset-0 z-0 cursor-pointer"
           aria-label={`Ver ${title}`}
+          {...itemAnalytics}
         >
           {images.length > 0 && showImage ? (
             <Image
@@ -171,7 +174,7 @@ export function PackageCardCarousel({
       {/* Contenido */}
       <div className="space-y-3 p-5">
         <TitleTag className="text-xl font-bold">
-          <Link href={`/paquetes/${pkg.slug}`} className="hover:underline">
+          <Link href={`/paquetes/${pkg.slug}`} className="hover:underline" {...itemAnalytics}>
             {title}
           </Link>
         </TitleTag>
@@ -192,6 +195,7 @@ export function PackageCardCarousel({
           <Link
             href={`/paquetes/${pkg.slug}`}
             className="flex-1 rounded-full border border-brand-red-mid px-4 py-2 text-center text-sm font-semibold text-brand-red-mid transition hover:bg-brand-red-mid/10"
+            {...itemAnalytics}
           >
             Conocer más
           </Link>

@@ -13,6 +13,7 @@ export const GA_MEASUREMENT_ID =
 export const GA_EVENTS = {
   whatsapp: "generate_lead",
   phone: "click_phone",
+  email: "click_email",
   social: "click_social",
   map: "click_map",
   cta: "cta_click",

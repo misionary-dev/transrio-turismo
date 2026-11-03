@@ -12,6 +12,7 @@ import {
   getDisplayTitle,
   getDurationLabel,
   getPriceAmount,
+  getPriceValue,
   getSeason,
 } from "@/lib/package-presentation";
 import { touristTripJsonLd } from "@/lib/seo";
@@ -54,6 +55,7 @@ export default async function PaqueteDetallePage(
   const duration = getDurationLabel(pkg);
   const season = getSeason(pkg);
   const amount = getPriceAmount(pkg);
+  const price = getPriceValue(pkg);
   const wa = whatsappUrl(
     quoteMessage({ destination: title, duration: duration || undefined }),
   );
@@ -65,7 +67,9 @@ export default async function PaqueteDetallePage(
 
   return (
     <main className="bg-white">
-      <TrackPackageView slug={pkg.slug} name={title} priceLabel={amount} />
+      {price != null ? (
+        <TrackPackageView slug={pkg.slug} name={title} price={price} />
+      ) : null}
       <JsonLd data={touristTripJsonLd(pkg)} />
       <PackageHero
         title={title}

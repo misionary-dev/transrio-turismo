@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { GA_EVENTS } from "@/lib/analytics";
-import { trackEvent } from "@/components/analytics/track";
+import { trackEvent, trackItem, type GaItem } from "@/components/analytics/track";
 
 function textOf(el: Element | null, max = 80): string {
   if (!el) return "";
@@ -35,7 +35,7 @@ function classifyLink(href: string, host: string) {
     return { event: GA_EVENTS.phone, method: "phone" as const };
   }
   if (lower.startsWith("mailto:")) {
-    return { event: GA_EVENTS.phone, method: "email" as const };
+    return { event: GA_EVENTS.email, method: "email" as const };
   }
   if (
     lower.includes("instagram.com") ||
@@ -67,9 +67,23 @@ function packageSlugFromPath(pathname: string): string | undefined {
   return m?.[1];
 }
 
+function itemFrom(el: HTMLElement): GaItem | null {
+  const price = Number(el.dataset.analyticsPrice);
+  const itemId = el.dataset.analyticsItemId;
+  const itemName = el.dataset.analyticsItemName;
+  const itemCategory = el.dataset.analyticsItemCategory;
+  if (!itemId || !itemName || !itemCategory || !Number.isFinite(price)) return null;
+  return {
+    item_id: itemId,
+    item_name: itemName,
+    price,
+    item_category: itemCategory,
+  };
+}
+
 /**
- * Captura clics y formularios en toda la web sin tocar cada CTA.
- * Complementa Enhanced Measurement de GA4 (scroll, outbound, file download, etc.).
+ * Clics de conversión marcados con data-analytics, más enlaces especiales
+ * (WhatsApp, teléfono, mail, redes, mapa). El texto visible no decide el evento.
  */
 export function AnalyticsListener() {
   const lastKey = useRef("");
@@ -93,10 +107,7 @@ export function AnalyticsListener() {
       if (!el) return;
 
       const label =
-        el.dataset.analyticsLabel ||
-        el.dataset.analytics ||
-        textOf(el) ||
-        el.tagName.toLowerCase();
+        el.dataset.analyticsLabel || textOf(el) || el.tagName.toLowerCase();
       const location =
         el.dataset.analyticsLocation ||
         el.closest("[data-analytics-section]")?.getAttribute(
@@ -120,7 +131,6 @@ export function AnalyticsListener() {
             location,
             package_slug: packageSlugFromPath(path),
           });
-          // Evento recomendado adicional para embudos de lead
           if (classified.event === GA_EVENTS.whatsapp) {
             trackEvent("whatsapp_click", {
               link_text: label,
@@ -132,46 +142,30 @@ export function AnalyticsListener() {
           return;
         }
 
-        // Navegación interna / CTA
-        const isCta =
-          el.dataset.analytics === "cta" ||
-          /reservar|cotizar|charlemos|conocer|paquete|consulta|whatsapp/i.test(
-            label,
-          );
-        trackEvent(isCta ? GA_EVENTS.cta : GA_EVENTS.ui, {
+        if (el.dataset.analytics === "select_item") {
+          const item = itemFrom(el);
+          if (item) trackItem("select_item", item);
+          return;
+        }
+
+        trackEvent(el.dataset.analytics === "cta" ? GA_EVENTS.cta : GA_EVENTS.ui, {
           link_url: href.slice(0, 500),
           link_text: label,
           page_path: path,
           location,
           element_type: "link",
         });
-
-        const slug = packageSlugFromPath(
-          (() => {
-            try {
-              return new URL(href).pathname;
-            } catch {
-              return "";
-            }
-          })(),
-        );
-        if (slug && /conocer|detalle|ver|paquete/i.test(label)) {
-          trackEvent(GA_EVENTS.selectItem, {
-            item_id: slug,
-            item_name: label,
-            page_path: path,
-          });
-        }
         return;
       }
 
-      // Botones / role=button
       const key = `btn:${label}:${path}`;
       if (dedupe(key)) return;
-      const isCta =
-        el.dataset.analytics === "cta" ||
-        /enviar|reservar|cotizar|charlemos|consulta|buscar/i.test(label);
-      trackEvent(isCta ? GA_EVENTS.cta : GA_EVENTS.ui, {
+      if (el.dataset.analytics === "select_item") {
+        const item = itemFrom(el);
+        if (item) trackItem("select_item", item);
+        return;
+      }
+      trackEvent(el.dataset.analytics === "cta" ? GA_EVENTS.cta : GA_EVENTS.ui, {
         link_text: label,
         page_path: path,
         location,
