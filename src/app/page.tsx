@@ -7,7 +7,7 @@ import { PackagesIntro } from "@/components/packages/PackagesIntro";
 import { PackageCardCarousel } from "@/components/packages/PackageCardCarousel";
 import { GroupDepartureSection } from "@/components/GroupDepartureSection";
 import { ContactSection } from "@/components/ContactSection";
-import { CampaignBackdrop, CampaignHeroBadges } from "@/components/Campaigns";
+import { CampaignBackdrop } from "@/components/Campaigns";
 import { packageDetails } from "@/data/package-details";
 import { activeCampaignKey } from "@/lib/campaigns";
 import { FAQ_JSON_LD, packageListJsonLd } from "@/lib/seo";
@@ -29,7 +29,7 @@ export default function Home() {
       <JsonLd data={packageListJsonLd()} />
       <JsonLd data={FAQ_JSON_LD} />
       <CampaignBackdrop active={campaigns} />
-      <AIMarketingHeroKelo badge={<CampaignHeroBadges active={campaigns} />} />
+      <AIMarketingHeroKelo />
       <CampanaBanner />
 
       {/* Diseño 1 — card con carrusel de fotos */}
