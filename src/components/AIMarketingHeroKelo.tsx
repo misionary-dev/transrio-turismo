@@ -3,6 +3,8 @@
 import { type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { MastercardCirclesIcon } from "@/components/icons/MastercardCirclesIcon";
+import { VisaWordmarkIcon } from "@/components/icons/VisaWordmarkIcon";
 import { cn } from "@/lib/utils";
 import { HOURS } from "@/lib/contact";
 
@@ -70,8 +72,20 @@ export default function AIMarketingHeroKelo({
           <span className="rounded-full border border-white/20 bg-brand-red-mid/90 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm md:text-xs">
             Reservá con $200.000
           </span>
-          <span className="rounded-full border border-white/20 bg-brand-red-mid/90 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm md:text-xs">
-            6 cuotas sin interés
+          <span className="inline-flex max-w-[min(100%,22rem)] flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full border border-white/20 bg-brand-red-mid/90 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur-sm md:max-w-none md:text-xs">
+            <span className="text-center leading-snug">
+              3 o 6 cuotas sin interés · Visa o Mastercard
+            </span>
+            <span className="flex shrink-0 items-center gap-2 border-l border-white/25 pl-2">
+              <VisaWordmarkIcon
+                className="block h-3.5 w-auto text-[#93C5FD] md:h-4"
+                aria-hidden
+              />
+              <MastercardCirclesIcon
+                className="block h-3.5 w-auto md:h-4"
+                aria-hidden
+              />
+            </span>
           </span>
         </div>
 

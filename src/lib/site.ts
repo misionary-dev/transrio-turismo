@@ -13,7 +13,7 @@ export const DEFAULT_TITLE =
   "Camboriú verano 2027 en bus cama desde Posadas | Transrio";
 
 export const DEFAULT_DESCRIPTION =
-  "Camboriú te espera: 7 noches, bus cama Río Uruguay y hoteles 3 y 4 estrellas, salidas todos los lunes del verano. También Torres, Capão, Gramado y más desde Posadas.";
+  "Camboriú te espera: 7 noches, bus cama Río Uruguay y hoteles 3 y 4 estrellas, salidas todos los lunes del verano. 3 o 6 cuotas sin interés con Visa o Mastercard. También Torres, Capão, Gramado y más desde Posadas.";
 
 export const GEO = {
   latitude: -27.402666,
