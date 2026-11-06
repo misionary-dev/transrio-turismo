@@ -10,10 +10,10 @@ export const GOOGLE_SITE_VERIFICATION =
 export const SITE_NAME = "Transrio Turismo";
 
 export const DEFAULT_TITLE =
-  "Paquetes a Brasil en bus cama desde Posadas | Transrio";
+  "Camboriú verano 2027 en bus cama desde Posadas | Transrio";
 
 export const DEFAULT_DESCRIPTION =
-  "Operador turístico en Posadas, Misiones. Paquetes a Torres, Capão, Camboriú, Gramado y Termas en ómnibus cama Río Uruguay, con hotel y asistencia.";
+  "Camboriú te espera: 7 noches, bus cama Río Uruguay y hoteles 3 y 4 estrellas, salidas todos los lunes del verano. También Torres, Capão, Gramado y más desde Posadas.";
 
 export const GEO = {
   latitude: -27.402666,
