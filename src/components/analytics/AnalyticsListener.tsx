@@ -3,13 +3,13 @@
 import { useEffect, useRef } from "react";
 import { GA_EVENTS } from "@/lib/analytics";
 import { trackEvent, trackItem, type GaItem } from "@/components/analytics/track";
+import { yieldToMain } from "@/lib/yield";
 
 function textOf(el: Element | null, max = 80): string {
   if (!el) return "";
   const raw =
     el.getAttribute("aria-label") ||
     el.getAttribute("title") ||
-    (el as HTMLElement).innerText ||
     el.textContent ||
     "";
   return raw.replace(/\s+/g, " ").trim().slice(0, max);
@@ -99,11 +99,11 @@ export function AnalyticsListener() {
       return false;
     };
 
-    const onClick = (e: MouseEvent) => {
-      if (e.defaultPrevented) return;
-      if (e.button !== 0 && e.button !== 1) return;
+    const runClick = (target: EventTarget | null, button: number, prevented: boolean) => {
+      if (prevented) return;
+      if (button !== 0 && button !== 1) return;
 
-      const el = closestInteractive(e.target);
+      const el = closestInteractive(target);
       if (!el) return;
 
       const label =
@@ -132,11 +132,13 @@ export function AnalyticsListener() {
             package_slug: packageSlugFromPath(path),
           });
           if (classified.event === GA_EVENTS.whatsapp) {
-            trackEvent("whatsapp_click", {
-              link_text: label,
-              page_path: path,
-              location,
-              package_slug: packageSlugFromPath(path),
+            void yieldToMain().then(() => {
+              trackEvent("whatsapp_click", {
+                link_text: label,
+                page_path: path,
+                location,
+                package_slug: packageSlugFromPath(path),
+              });
             });
           }
           return;
@@ -173,8 +175,15 @@ export function AnalyticsListener() {
       });
     };
 
-    const onFocusIn = (e: FocusEvent) => {
-      const t = e.target;
+    const onClick = (e: MouseEvent) => {
+      const target = e.target;
+      const button = e.button;
+      const prevented = e.defaultPrevented;
+      void yieldToMain().then(() => runClick(target, button, prevented));
+    };
+
+    const runFocusIn = (target: EventTarget | null) => {
+      const t = target;
       if (!(t instanceof HTMLElement)) return;
       const form = t.closest("form");
       if (!form || formsStarted.current.has(form)) return;
@@ -188,8 +197,13 @@ export function AnalyticsListener() {
       });
     };
 
-    const onSubmit = (e: Event) => {
-      const form = e.target;
+    const onFocusIn = (e: FocusEvent) => {
+      const target = e.target;
+      void yieldToMain().then(() => runFocusIn(target));
+    };
+
+    const runSubmit = (target: EventTarget | null) => {
+      const form = target;
       if (!(form instanceof HTMLFormElement)) return;
       trackEvent(GA_EVENTS.formSubmit, {
         form_id: form.id || form.getAttribute("name") || "contact",
@@ -197,13 +211,19 @@ export function AnalyticsListener() {
       });
     };
 
-    document.addEventListener("click", onClick, true);
-    document.addEventListener("focusin", onFocusIn, true);
-    document.addEventListener("submit", onSubmit, true);
+    const onSubmit = (e: Event) => {
+      const target = e.target;
+      void yieldToMain().then(() => runSubmit(target));
+    };
+
+    const listen: AddEventListenerOptions = { capture: true, passive: true };
+    document.addEventListener("click", onClick, listen);
+    document.addEventListener("focusin", onFocusIn, listen);
+    document.addEventListener("submit", onSubmit, listen);
     return () => {
-      document.removeEventListener("click", onClick, true);
-      document.removeEventListener("focusin", onFocusIn, true);
-      document.removeEventListener("submit", onSubmit, true);
+      document.removeEventListener("click", onClick, listen);
+      document.removeEventListener("focusin", onFocusIn, listen);
+      document.removeEventListener("submit", onSubmit, listen);
     };
   }, []);
 

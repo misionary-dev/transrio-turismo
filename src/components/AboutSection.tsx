@@ -1,61 +1,12 @@
-"use client";
-
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
 import Image from "next/image";
 import { Bus, Building2, Heart } from "lucide-react";
+import { IdleGsap } from "@/components/motion/IdleGsap";
 import { media } from "@/lib/media";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
-
 export function AboutSection() {
-  const root = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      // Animación de la sección 1
-      gsap.from("[data-about-image]", {
-        opacity: 0,
-        x: -40,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-about-content]",
-          start: "top 70%",
-        },
-      });
-
-      gsap.from("[data-about-text]", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-about-content]",
-          start: "top 70%",
-        },
-      });
-
-      // Animación de los ítems de características
-      gsap.from("[data-feature-item]", {
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-features-section]",
-          start: "top 70%",
-        },
-      });
-    },
-    { scope: root }
-  );
-
   return (
-    <div ref={root} className="bg-white">
+    <div className="bg-white">
+      <IdleGsap variant="about" />
       {/* Sección 1: Nuestros Orígenes */}
       <section
         data-about-content

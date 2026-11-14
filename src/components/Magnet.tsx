@@ -25,14 +25,12 @@ const Magnet: React.FC<MagnetProps> = ({
   ...props
 }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [offset, setOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const position = disabled ? { x: 0, y: 0 } : offset;
   const magnetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (disabled) {
-      setPosition({ x: 0, y: 0 });
-      return;
-    }
+    if (disabled) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!magnetRef.current) return;
@@ -48,14 +46,14 @@ const Magnet: React.FC<MagnetProps> = ({
         setIsActive(true);
         const offsetX = (e.clientX - centerX) / magnetStrength;
         const offsetY = (e.clientY - centerY) / magnetStrength;
-        setPosition({ x: offsetX, y: offsetY });
+        setOffset({ x: offsetX, y: offsetY });
       } else {
         setIsActive(false);
-        setPosition({ x: 0, y: 0 });
+        setOffset({ x: 0, y: 0 });
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };

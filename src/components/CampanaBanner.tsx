@@ -4,11 +4,11 @@ import campana from "@/data/campana-vigente.json";
 import { media } from "@/lib/media";
 
 /** Bloque de campaña del home. El contenido vive en `src/data/campana-vigente.json`. */
+const campanaVisible =
+  Date.now() >= Date.parse(campana.start) && Date.now() < Date.parse(campana.end);
+
 export function CampanaBanner() {
-  const now = Date.now();
-  if (now < Date.parse(campana.start) || now >= Date.parse(campana.end)) {
-    return null;
-  }
+  if (!campanaVisible) return null;
 
   return (
     <aside aria-label={campana.title} className="bg-white">

@@ -1,3 +1,4 @@
+import { LazyMap } from "@/components/maps/LazyMap";
 import { Clock, MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
@@ -80,15 +81,7 @@ export function ContactPageForm() {
 
           {/* Mapa + datos de contacto */}
           <div className="flex flex-col gap-6">
-            <div className="aspect-video w-full overflow-hidden rounded-2xl">
-              <iframe
-                src={MAPS_EMBED_URL}
-                title="Ubicación Transrio Turismo"
-                loading="lazy"
-                className="h-full w-full border-0"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+            <LazyMap src={MAPS_EMBED_URL} title="Ubicación Transrio Turismo" />
 
             <div className="flex flex-col gap-3 text-sm text-brand-black">
               <a
