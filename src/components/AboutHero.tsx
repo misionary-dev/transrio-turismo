@@ -1,5 +1,3 @@
-"use client";
-
 import { PhotoPageHero } from "@/components/PhotoPageHero";
 import { media } from "@/lib/media";
 

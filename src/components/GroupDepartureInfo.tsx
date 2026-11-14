@@ -1,61 +1,12 @@
-"use client";
-
-import { useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { Users, MapPin, Zap, Heart } from "lucide-react";
+import { IdleGsap } from "@/components/motion/IdleGsap";
 import { media } from "@/lib/media";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
-
 export function GroupDepartureInfo() {
-  const root = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      // Animación de la sección principal
-      gsap.from("[data-group-image]", {
-        opacity: 0,
-        x: -40,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-group-content]",
-          start: "top 70%",
-        },
-      });
-
-      gsap.from("[data-group-text]", {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-group-content]",
-          start: "top 70%",
-        },
-      });
-
-      // Animación de los ítems de características
-      gsap.from("[data-benefit-item]", {
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-benefits-section]",
-          start: "top 70%",
-        },
-      });
-    },
-    { scope: root }
-  );
-
   return (
-    <div ref={root} className="bg-white">
+    <div className="bg-white">
+      <IdleGsap variant="group" />
       {/* Sección Principal */}
       <section
         data-group-content

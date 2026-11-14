@@ -88,4 +88,40 @@ body {
   html {
     scroll-behavior: auto;
   }
+
+  [data-hero-title],
+  [data-hero-subtitle] {
+    animation: none;
+  }
+}
+
+/* Misma entrada que el gsap.from del hero, sin el chunk de GSAP. */
+@keyframes tr-hero-title {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tr-hero-subtitle {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+[data-hero-title] {
+  animation: tr-hero-title 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-hero-subtitle] {
+  animation: tr-hero-subtitle 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }

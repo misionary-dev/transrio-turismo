@@ -1,9 +1,5 @@
-"use client";
-
-import { useRef, type ReactNode } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import type { ReactNode } from "react";
 
 type PhotoPageHeroProps = {
   src: string;
@@ -12,32 +8,8 @@ type PhotoPageHeroProps = {
 };
 
 export function PhotoPageHero({ src, alt, children }: PhotoPageHeroProps) {
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      gsap.from("[data-hero-title]", {
-        opacity: 0,
-        y: -30,
-        duration: 1,
-        ease: "power3.out",
-      });
-      gsap.from("[data-hero-subtitle]", {
-        opacity: 0,
-        y: 20,
-        duration: 1,
-        delay: 0.2,
-        ease: "power3.out",
-      });
-    },
-    { scope: heroRef },
-  );
-
   return (
-    <div
-      ref={heroRef}
-      className="relative flex h-96 w-full items-center justify-center overflow-hidden"
-    >
+    <div className="relative flex h-96 w-full items-center justify-center overflow-hidden">
       <Image
         src={src}
         alt={alt}

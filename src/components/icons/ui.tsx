@@ -48,6 +48,19 @@ export const MapPin = make([
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ]);
 
+export const CalendarDays = make([
+  ["path", { d: "M8 2v4", key: "1cmpym" }],
+  ["path", { d: "M16 2v4", key: "4m81vk" }],
+  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
+  ["path", { d: "M3 10h18", key: "8toen8" }],
+  ["path", { d: "M8 14h.01", key: "6423bh" }],
+  ["path", { d: "M12 14h.01", key: "1etili" }],
+  ["path", { d: "M16 14h.01", key: "1gbofw" }],
+  ["path", { d: "M8 18h.01", key: "lrb2b2" }],
+  ["path", { d: "M12 18h.01", key: "mhygvu" }],
+  ["path", { d: "M16 18h.01", key: "kzsmim" }],
+]);
+
 export const ChevronLeft = make([["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]]);
 
 export const ChevronRight = make([["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]]);

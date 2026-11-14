@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { MapPin, CalendarDays, Sun } from "lucide-react";
+import { CalendarDays, MapPin, Sun } from "@/components/icons/ui";
 
 export type FilterState = {
   destino: string[];

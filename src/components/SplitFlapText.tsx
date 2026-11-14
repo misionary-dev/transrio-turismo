@@ -173,10 +173,13 @@ const SplitFlapText = ({
 
     const firstPhrase = normalizedPhrases[0] || '';
     currentTextRef.current = firstPhrase;
-    setTiles(createTiles(firstPhrase));
+    const kick = window.setTimeout(() => setTiles(createTiles(firstPhrase)), 0);
 
     if (normalizedPhrases.length <= 1 || typeof window === 'undefined') {
-      return clearAnimation;
+      return () => {
+        clearTimeout(kick);
+        clearAnimation();
+      };
     }
 
     let phraseIndex = 0;
@@ -317,6 +320,7 @@ const SplitFlapText = ({
 
     return () => {
       cancelled = true;
+      clearTimeout(kick);
       clearAnimation();
     };
   }, [normalizedPhrases, width, loop, cycleDelay, flipDuration, stagger, flipsPerChar, charset, prefersReducedMotion]);

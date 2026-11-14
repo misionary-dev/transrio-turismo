@@ -27,7 +27,11 @@ export function trackEvent(
     if (typeof value === "number" && !Number.isFinite(value)) continue;
     cleaned[key] = value;
   }
-  sendGTMEvent({ event: name, ...cleaned });
+  try {
+    sendGTMEvent({ event: name, ...cleaned });
+  } catch {
+    /* El tracking no puede romper la interacción. */
+  }
 }
 
 /** view_item / select_item según la spec de ecommerce de GA4. */

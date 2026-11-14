@@ -1,11 +1,12 @@
-import Script from "next/script";
 import { AnalyticsListener } from "@/components/analytics/AnalyticsListener";
+import { DeferredGtm } from "@/components/analytics/DeferredGtm";
 import { GTM_ID } from "@/lib/analytics";
 
 /**
  * GTM es la única carga de tags de Google en el sitio.
  * GA4 (G-7PSZ21CFV9) vive como tag dentro del contenedor, no con gtag.js.
- * El script entra en lazyOnload para no competir con el LCP.
+ * El script se difiere hasta un hueco del hilo para no competir con el INP.
+ * Los eventos se encolan en dataLayer y el contenedor los procesa al llegar.
  */
 export function SiteAnalytics() {
   if (!GTM_ID || !/^GTM-[A-Z0-9]+$/i.test(GTM_ID)) return null;
@@ -20,13 +21,7 @@ export function SiteAnalytics() {
           style={{ display: "none", visibility: "hidden" }}
         />
       </noscript>
-      <Script id="gtm" strategy="lazyOnload">{`
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${GTM_ID}');
-      `}</Script>
+      <DeferredGtm id={GTM_ID} />
       <AnalyticsListener />
     </>
   );

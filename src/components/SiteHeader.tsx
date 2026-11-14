@@ -1,12 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock, MapPin } from "@/components/icons/ui";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { media } from "@/lib/media";
 import { CampaignHeaderMarks } from "@/components/Campaigns";
+import { MobileMenuButton } from "@/components/menu/MobileMenuButton";
+import { MobileMenuSlot } from "@/components/menu/MobileMenuSlot";
 import {
   ADDRESS,
   ADDRESS_MAPS_URL,
@@ -24,7 +23,6 @@ const NAV_LINKS = [
 ];
 
 export function SiteHeader({ campaigns }: { campaigns: string }) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const wa = whatsappUrl(quoteMessage());
 
   return (
@@ -91,58 +89,10 @@ export function SiteHeader({ campaigns }: { campaigns: string }) {
             </a>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] justify-self-end md:hidden"
-            aria-label="Abrir menú"
-            aria-expanded={menuOpen}
-          >
-            <span
-              className={
-                "block h-[2px] w-5 bg-brand-black transition-all duration-300 " +
-                (menuOpen ? "translate-y-[7px] rotate-45" : "")
-              }
-            />
-            <span
-              className={
-                "block h-[2px] w-5 bg-brand-black transition-all duration-300 " +
-                (menuOpen ? "opacity-0" : "")
-              }
-            />
-            <span
-              className={
-                "block h-[2px] w-5 bg-brand-black transition-all duration-300 " +
-                (menuOpen ? "-translate-y-[7px] -rotate-45" : "")
-              }
-            />
-          </button>
+          <MobileMenuButton />
         </nav>
 
-        {menuOpen ? (
-          <div className="flex flex-col gap-1 border-t border-black/5 bg-brand-white px-4 py-3 md:hidden">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-[15px] font-medium text-brand-black transition-colors hover:bg-black/5"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <a
-              href={wa}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              className="mt-1 flex items-center justify-center gap-2 rounded-full bg-brand-red-mid px-5 py-2.5 text-[15px] font-semibold text-white transition hover:brightness-110"
-            >
-              <WhatsAppIcon />
-              Charlemos
-            </a>
-          </div>
-        ) : null}
+        <MobileMenuSlot links={NAV_LINKS} wa={wa} />
       </header>
     </>
   );

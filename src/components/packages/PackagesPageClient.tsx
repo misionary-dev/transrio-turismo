@@ -1,17 +1,57 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { memo, useCallback, useDeferredValue, useMemo, useState } from "react";
 import { PackagesPageFilters, type FilterState } from "@/components/PackagesPageFilters";
 import { PackageCardCarousel } from "@/components/packages/PackageCardCarousel";
 import { packageDetails } from "@/data/package-details";
 
-export function PackagesPageClient() {
-  const [filters, setFilters] = useState<FilterState>({
-    destino: [],
-    duracion: [],
-    temporada: [],
-  });
+const EMPTY_FILTERS: FilterState = {
+  destino: [],
+  duracion: [],
+  temporada: [],
+};
 
+export function PackagesPageClient() {
+  const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS);
+  const deferredFilters = useDeferredValue(filters);
+  const clearFilters = useCallback(() => setFilters(EMPTY_FILTERS), []);
+
+  return (
+    <main className="bg-white min-h-screen py-16 md:py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mb-16">
+          <p className="text-sm font-semibold tracking-[0.2em] text-brand-red-mid uppercase">
+            Temporada 2026
+          </p>
+          <h1 className="mt-3 font-[family-name:var(--font-funnel)] text-4xl font-semibold tracking-tight text-brand md:text-5xl">
+            Todos nuestros paquetes
+          </h1>
+          <p className="mt-4 text-base text-foreground/70 md:text-lg">
+            Descubre nuestros destinos en Brasil con transporte, alojamiento y
+            asistencia incluida.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+          <div className="lg:col-span-1">
+            <PackagesPageFilters filters={filters} onFilterChange={setFilters} />
+          </div>
+          <div className="lg:col-span-4">
+            <PackageResults filters={deferredFilters} onClear={clearFilters} />
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+const PackageResults = memo(function PackageResults({
+  filters,
+  onClear,
+}: {
+  filters: FilterState;
+  onClear: () => void;
+}) {
   const filteredPackages = useMemo(() => {
     return packageDetails.filter((pkg) => {
       const hasActiveFilters =
@@ -61,55 +101,28 @@ export function PackagesPageClient() {
     });
   }, [filters]);
 
-  return (
-    <main className="bg-white min-h-screen py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16">
-          <p className="text-sm font-semibold tracking-[0.2em] text-brand-red-mid uppercase">
-            Temporada 2026
-          </p>
-          <h1 className="mt-3 font-[family-name:var(--font-funnel)] text-4xl font-semibold tracking-tight text-brand md:text-5xl">
-            Todos nuestros paquetes
-          </h1>
-          <p className="mt-4 text-base text-foreground/70 md:text-lg">
-            Descubre nuestros destinos en Brasil con transporte, alojamiento y
-            asistencia incluida.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-1">
-            <PackagesPageFilters
-              filters={filters}
-              onFilterChange={setFilters}
-            />
-          </div>
-
-          <div className="lg:col-span-4">
-            {filteredPackages.length > 0 ? (
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-                {filteredPackages.map((pkg) => (
-                  <PackageCardCarousel key={pkg.slug} pkg={pkg} heading="h2" />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-                <p className="text-lg font-semibold text-foreground/70">
-                  No encontramos paquetes con esos filtros
-                </p>
-                <button
-                  onClick={() =>
-                    setFilters({ destino: [], duracion: [], temporada: [] })
-                  }
-                  className="text-sm text-brand-red-mid hover:underline font-semibold"
-                >
-                  Limpiar filtros
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+  if (filteredPackages.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+        <p className="text-lg font-semibold text-foreground/70">
+          No encontramos paquetes con esos filtros
+        </p>
+        <button
+          type="button"
+          onClick={onClear}
+          className="text-sm text-brand-red-mid hover:underline font-semibold"
+        >
+          Limpiar filtros
+        </button>
       </div>
-    </main>
+    );
+  }
+
+  return (
+    <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      {filteredPackages.map((pkg) => (
+        <PackageCardCarousel key={pkg.slug} pkg={pkg} heading="h2" />
+      ))}
+    </div>
   );
-}
+});
