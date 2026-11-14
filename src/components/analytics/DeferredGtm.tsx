@@ -2,25 +2,28 @@
 
 import { useEffect } from "react";
 
-const INITIAL_DELAY_MS = 5000;
-const QUIET_AFTER_INPUT_MS = 1200;
-const MAX_WAIT_MS = 12000;
+const IDLE_TIMEOUT_MS = 2500;
+
+type Scheduler = { yield?: () => Promise<void> };
 
 /**
- * gtm.js (y los tags que dispara: GA4, pixel, etc.) entra cuando el hilo
- * estuvo quieto. Un toque reprograma la carga para no sumarla al INP.
- * dataLayer sigue recibiendo eventos antes de que el script llegue.
+ * gtm.js entra en el primer hueco después del load (tope ~2,5 s) o en el
+ * primer gesto, lo que ocurra antes. La inyección queda fuera del turno
+ * del evento para no sumarla al INP. Así el page_view de GA4 sale dentro
+ * de los primeros ~3 s y los rebotes cortos no se pierden.
  */
 export function DeferredGtm({ id }: { id: string }) {
   useEffect(() => {
     let loaded = false;
+    let cancelled = false;
+    let idleId = 0;
     let timer = 0;
-    const started = performance.now();
 
     const load = () => {
-      if (loaded) return;
+      if (cancelled || loaded) return;
       loaded = true;
-      window.clearTimeout(timer);
+      cancelScheduled();
+      detachGesture();
       const w = window as Window & { dataLayer?: object[] };
       w.dataLayer = w.dataLayer || [];
       const hasStart = w.dataLayer.some(
@@ -37,29 +40,66 @@ export function DeferredGtm({ id }: { id: string }) {
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtm.js?id=${id}`;
       document.head.appendChild(script);
-      window.removeEventListener("pointerdown", bump, true);
-      window.removeEventListener("keydown", bump);
     };
 
-    const arm = (delay: number) => {
+    const afterPaint = (fn: () => void) => {
+      const scheduler = (globalThis as { scheduler?: Scheduler }).scheduler;
+      if (typeof scheduler?.yield === "function") {
+        void scheduler.yield().then(fn);
+        return;
+      }
+      if (typeof requestAnimationFrame === "function") {
+        requestAnimationFrame(() => {
+          setTimeout(fn, 0);
+        });
+        return;
+      }
+      setTimeout(fn, 0);
+    };
+
+    const cancelScheduled = () => {
+      if (idleId) window.cancelIdleCallback?.(idleId);
+      idleId = 0;
       window.clearTimeout(timer);
-      const remain = MAX_WAIT_MS - (performance.now() - started);
-      const wait = Math.max(200, Math.min(delay, Math.max(remain, 200)));
-      timer = window.setTimeout(load, wait);
+      timer = 0;
     };
 
-    const bump = () => {
-      if (!loaded) arm(QUIET_AFTER_INPUT_MS);
+    const onGesture = () => {
+      detachGesture();
+      cancelScheduled();
+      afterPaint(load);
     };
 
-    arm(INITIAL_DELAY_MS);
-    window.addEventListener("pointerdown", bump, { capture: true, passive: true });
-    window.addEventListener("keydown", bump, { passive: true });
+    function detachGesture() {
+      window.removeEventListener("pointerdown", onGesture, true);
+      window.removeEventListener("keydown", onGesture);
+    }
+
+    const scheduleIdle = () => {
+      if (loaded) return;
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(() => afterPaint(load), {
+          timeout: IDLE_TIMEOUT_MS,
+        });
+        return;
+      }
+      timer = window.setTimeout(() => afterPaint(load), IDLE_TIMEOUT_MS);
+    };
+
+    window.addEventListener("pointerdown", onGesture, {
+      capture: true,
+      passive: true,
+    });
+    window.addEventListener("keydown", onGesture, { passive: true });
+
+    if (document.readyState === "complete") scheduleIdle();
+    else window.addEventListener("load", scheduleIdle, { once: true });
 
     return () => {
-      window.clearTimeout(timer);
-      window.removeEventListener("pointerdown", bump, true);
-      window.removeEventListener("keydown", bump);
+      cancelled = true;
+      cancelScheduled();
+      detachGesture();
+      window.removeEventListener("load", scheduleIdle);
     };
   }, [id]);
 
